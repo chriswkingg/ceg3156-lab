@@ -11,29 +11,31 @@ ENTITY EightBitGPRegister IS
 END EightBitGPRegister;
 
 ARCHITECTURE structural OF EightBitGPRegister IS
-    COMPONENT dflipflop
+    COMPONENT enARdFF_2
         PORT (
             i_d : IN STD_LOGIC;
             i_clock : IN STD_LOGIC;
             i_enable : IN STD_LOGIC;
-				i_async_reset : IN STD_LOGIC;
+            i_resetBar : IN STD_LOGIC;
             o_q, o_qBar : OUT STD_LOGIC
         );
     END COMPONENT;
 
-    COMPONENT fouronemux
+    COMPONENT EightToOneMux
         PORT (
-            w0, w1, w2, w3 : IN STD_LOGIC;
-            s0, s1 : IN STD_LOGIC;
-            f : OUT STD_LOGIC
+            i_mux: IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+            o_mux: OUT STD_LOGIC;
+            sel0, sel1, sel2: IN STD_LOGIC
         );
     END COMPONENT;
+
     SIGNAL d_in : STD_LOGIC_VECTOR(7 DOWNTO 0);
     SIGNAL q_out : STD_LOGIC_VECTOR(7 DOWNTO 0);
-	 SIGNAL int_muxSelect0, int_muxSelect1 : STD_LOGIC;
+    SIGNAL int_muxSelect0, int_muxSelect1 : STD_LOGIC;
+
 BEGIN
     int_muxSelect0 <=  i_shiftLeft and not i_shiftRight;
-	 int_muxSelect1 <= i_load;
+	int_muxSelect1 <= i_load;
 	 
 	
     dff0: dflipflop
@@ -41,7 +43,7 @@ BEGIN
         i_d => d_in(0),
         i_clock => i_clock,
         i_enable => i_load or i_shiftLeft or i_shiftRight,
-		  i_async_reset => i_reset,
+		i_resetBar => i_reset,
         o_q => q_out(0),
         o_qBar => open
     );
@@ -62,7 +64,7 @@ BEGIN
         i_d => d_in(1),
         i_clock => i_clock,
         i_enable => i_load or i_shiftLeft or i_shiftRight,
-		  i_async_reset => i_reset,
+		i_resetBar => i_reset,
         o_q => q_out(1),
         o_qBar => open
     );
@@ -83,7 +85,7 @@ BEGIN
         i_d => d_in(2),
         i_clock => i_clock,
         i_enable => i_load or i_shiftLeft or i_shiftRight,
-		  i_async_reset => i_reset,
+		i_resetBar => i_reset,
         o_q => q_out(2),
         o_qBar => open
     );
@@ -104,7 +106,7 @@ BEGIN
         i_d => d_in(3),
         i_clock => i_clock,
         i_enable => i_load or i_shiftLeft or i_shiftRight,
-		  i_async_reset => i_reset,
+		i_resetBar => i_reset,
         o_q => q_out(3),
         o_qBar => open
     );
@@ -125,7 +127,7 @@ BEGIN
         i_d => d_in(4),
         i_clock => i_clock,
         i_enable => i_load or i_shiftLeft or i_shiftRight,
-		  i_async_reset => i_reset,
+		i_resetBar => i_reset,
         o_q => q_out(4),
         o_qBar => open
     );
@@ -146,7 +148,7 @@ BEGIN
         i_d => d_in(5),
         i_clock => i_clock,
         i_enable => i_load or i_shiftLeft or i_shiftRight,
-		  i_async_reset => i_reset,
+		i_resetBar => i_reset,
         o_q => q_out(5),
         o_qBar => open
     );
@@ -167,7 +169,7 @@ BEGIN
         i_d => d_in(6),
         i_clock => i_clock,
         i_enable => i_load or i_shiftLeft or i_shiftRight,
-		  i_async_reset => i_reset,
+		i_resetBar => i_reset,
         o_q => q_out(6),
         o_qBar => open
     );
@@ -188,7 +190,7 @@ BEGIN
         i_d => d_in(7),
         i_clock => i_clock,
         i_enable => i_load or i_shiftLeft or i_shiftRight,
-		  i_async_reset => i_reset,
+		i_resetBar => i_reset,
         o_q => q_out(7),
         o_qBar => open
     );

@@ -1,16 +1,16 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-ENTITY EightBitIncrementer IS
+ENTITY EightBitDecrementer IS
     PORT(
         i_resetBar, i_load, i_dec    : IN    STD_LOGIC;
         i_clock            : IN    STD_LOGIC;
         i_Value            : IN    STD_LOGIC_VECTOR(7 DOWNTO 0);
         o_Value            : OUT    STD_LOGIC_VECTOR(7 DOWNTO 0)
     );
-END EightBitIncrementer;
+END EightBitDecrementer;
 
-ARCHITECTURE rtl OF EightBitIncrementer IS
+ARCHITECTURE rtl OF EightBitDecrementer IS
     SIGNAL int_Value, int_notValue, o_driver, d_in, Adder_OUT :  STD_LOGIC_VECTOR(7 DOWNTO 0);
     SIGNAL d_en : STD_LOGIC;
 
