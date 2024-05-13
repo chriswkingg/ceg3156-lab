@@ -71,3 +71,4 @@ PLLJ_PLLSPE_INFO.txt
 
 #gtkwave Test benches
 *.vcd
+*.cf
