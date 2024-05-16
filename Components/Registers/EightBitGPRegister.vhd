@@ -54,6 +54,15 @@ ARCHITECTURE structural OF EightBitGPRegister IS
             CarryOUT    :   OUT STD_LOGIC
         );
         END COMPONENT;
+	 COMPONENT NineBitAdderSubtractor
+	 PORT (
+		InputA, InputB  : IN STD_LOGIC_VECTOR(8 downto 0);
+      Operation   :   IN STD_LOGIC;
+      Result    :   OUT STD_LOGIC_VECTOR(8 downto 0);
+      CarryOUT    :   OUT STD_LOGIC
+		
+	 );
+	 END COMPONENT;
 
     SIGNAL d_in : STD_LOGIC_VECTOR(7 DOWNTO 0);
     SIGNAL q_out : STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -89,7 +98,8 @@ BEGIN
     mux_in_5 <= (0 => q_out(5), 1 => i_Value(5), 2 => q_out(4), 3 => q_out(6), 4 => incrementer_result(5), 5 => decrementer_result(5), others => '1');
     mux_in_6 <= (0 => q_out(6), 1 => i_Value(6), 2 => q_out(5), 3 => q_out(7), 4 => incrementer_result(6), 5 => decrementer_result(6), others => '1');
     mux_in_7 <= (0 => q_out(7), 1 => i_Value(7), 2 => q_out(6), 3 => q_out(8), 4 => incrementer_result(7), 5 => decrementer_result(7), others => '1');
-    mux_in_8 <= (0 => q_out(8), 1 => i_Value(8), 2 => q_out(7), 3 => i_serial_in_left, 4 => incrementer_result(8), 5 => decrementer_result(8), others => '1');
+    -- wtf lol - CK
+	 mux_in_8 <= (0 => q_out(8), 1 => i_Value(8), 2 => q_out(7), 3 => i_serial_in_left, 4 => incrementer_result(8), 5 => decrementer_result(8), others => '1');
 
     OperationEncoder: EigthToThreeEncoder 
     PORT MAP(
