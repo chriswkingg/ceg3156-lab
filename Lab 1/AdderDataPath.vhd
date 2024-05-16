@@ -27,6 +27,7 @@ ENTITY AdderDataPath is
 ARCHITECTURE rtl of AdderDataPath is
 
     SIGNAL SHFTAM, SHFTBM, AEGTBE, DCEMT    : STD_LOGIC;
+    SIGNAL SignAorSignBNegative             : STD_LOGIC;
     SIGNAL exponentSubtractor_result        : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL exponentDifferenceNegator_result : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL ExponentA_8Bit, ExponentB_8Bit   : STD_LOGIC_VECTOR(6 downto 0);
@@ -36,7 +37,8 @@ ARCHITECTURE rtl of AdderDataPath is
     SIGNAL register_Bm_result               : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL register_Am_negator_result       : STD_LOGIC_VECTOR(8 downto 0);
     SIGNAL register_Bm_negator_result       : STD_LOGIC_VECTOR(8 downto 0);
-    SIGNAL mantissa_adder                   : STD_LOGIC_VECTOR(8 downto 0);
+    SIGNAL mantissa_adder_result            : STD_LOGIC_VECTOR(8 downto 0);
+    SIGNAL complementer_Sm_result           : STD_LOGIC_VECTOR(8 downto 0);
     SIGNAL mantissa_adder_8Bit              : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL register_Sm_result               : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL larger_exponent                  : STD_LOGIC_VECTOR(7 downto 0);
@@ -129,7 +131,9 @@ ARCHITECTURE rtl of AdderDataPath is
     MantissaA_9Bit <= (8 => '1', 7 downto 0 => MantissaA);
     MantissaB_9Bit <= (8 => '1', 7 downto 0 => MantissaB);
 
-    mantissa_adder_8Bit <=  (7 downto 0 => mantissa_adder(7 downto 0));
+    mantissa_adder_8Bit <=  (7 downto 0 => complementer_Sm_result(7 downto 0));
+
+    SignAorSignBNegative <= SignA or SignB;
 
 
     exponentComparator   :   EightBitComparator
@@ -239,14 +243,24 @@ ARCHITECTURE rtl of AdderDataPath is
             CarryOUT => open
         );
     
-        mantissa_adder  :   NineBitAdderSubtractor
+    mantissa_adder  :   NineBitAdderSubtractor
         PORT MAP
         (
             InputA => register_Am_negator_result,
             InputB => register_Bm_negator_result,
             Operation => '0',
             Result => mantissa_adder_result,
-            CarryOUT => open
+            CarryOUT => Overflow
+        );
+
+    complementer_Sm     : NineBitAdderSubtractor
+        PORT MAP
+        (
+            InputA => "00000000",
+            InputB => mantissa_adder_result,
+            Operation => SignAorSignBNegative,
+            Result => complementer_Sm_result,
+            CarryOUT => Overflow
         );
     
     register_Sm          : EightBitGPRegister
