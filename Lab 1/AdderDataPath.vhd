@@ -20,7 +20,7 @@ ENTITY AdderDataPath is
         LDAM, LDBM                      :   IN STD_LOGIC;
         LDSM, LSHFTM, RSHFTM            :   IN STD_LOGIC;
         LDSE, INCSE, DECSE              :   IN STD_LOGIC;
-        CLRS, LDAS                      :   IN STD_LOGIC;
+        CLRS, LDAS                      :   IN STD_LOGIC
     );
     END AdderDataPath;
 
@@ -30,11 +30,11 @@ ARCHITECTURE rtl of AdderDataPath is
     SIGNAL SignAorSignBNegative             : STD_LOGIC;
     SIGNAL exponentSubtractor_result        : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL exponentDifferenceNegator_result : STD_LOGIC_VECTOR(7 downto 0);
-    SIGNAL ExponentA_8Bit, ExponentB_8Bit   : STD_LOGIC_VECTOR(6 downto 0);
+    SIGNAL ExponentA_8Bit, ExponentB_8Bit   : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL MantissaA_9Bit, MantissaB_9Bit   : STD_LOGIC_VECTOR(8 downto 0);
     SIGNAL downcounter_result               : STD_LOGIC_VECTOR(7 downto 0);
-    SIGNAL register_Am_result               : STD_LOGIC_VECTOR(7 downto 0);
-    SIGNAL register_Bm_result               : STD_LOGIC_VECTOR(7 downto 0);
+    SIGNAL register_Am_result               : STD_LOGIC_VECTOR(8 downto 0);
+    SIGNAL register_Bm_result               : STD_LOGIC_VECTOR(8 downto 0);
     SIGNAL register_Am_negator_result       : STD_LOGIC_VECTOR(8 downto 0);
     SIGNAL register_Bm_negator_result       : STD_LOGIC_VECTOR(8 downto 0);
     SIGNAL mantissa_adder_result            : STD_LOGIC_VECTOR(8 downto 0);
@@ -126,14 +126,14 @@ ARCHITECTURE rtl of AdderDataPath is
     SHFTAM <= SHFTM and AEGTBE;
     SHFTBM <= SHFTM and (not AEGTBE);
 
-    ExponentA_8Bit <= (7 => '0', 6 downto 0 => ExponentA);
-    ExponentB_8Bit <= (7 => '0', 6 downto 0 => ExponentB);
-    MantissaA_9Bit <= (8 => '1', 7 downto 0 => MantissaA);
-    MantissaB_9Bit <= (8 => '1', 7 downto 0 => MantissaB);
+    ExponentA_8Bit <= '0' & ExponentA;
+    ExponentB_8Bit <= '0' & ExponentB;
+    MantissaA_9Bit <= '1' & MantissaA;
+    MantissaB_9Bit <= '1' & MantissaB;
 
-    mantissa_adder_8Bit <=  (7 downto 0 => complementer_Sm_result(7 downto 0));
+    mantissa_adder_8Bit <=  complementer_Sm_result(7 downto 0);
 
-    SignAorSignBNegative <= SignA or SignB;
+    SignAorSignBNegative <= SignA xor SignB;
 
 
     exponentComparator   :   EightBitComparator
@@ -166,15 +166,22 @@ ARCHITECTURE rtl of AdderDataPath is
             CarryOUT => open
         );
 
-    downcounter     :   NineBitGPRegister
-        PORT
+    downcounter     :   EightBitGPRegister
+        PORT MAP
         (
+
             i_resetBar => GReset,
-            i_load => LDDC,
-            i_dec => DECDC,
+            i_load => LDDC, 
+            i_shiftLeft => '0',
+            i_shiftRight => '0',
+            i_decrement => DECDC,
+            i_increment => '0',
+            i_serial_in_left => '0',
+            i_serial_in_right => '0',
             i_clock => GClock,
             i_Value => exponentDifferenceNegator_result,
-            o_Value => ,
+            o_Value => downcounter_result
+
         );
 
     downcounterEmptyComparator   :   EightBitComparator
@@ -194,10 +201,10 @@ ARCHITECTURE rtl of AdderDataPath is
             i_resetBar => GReset,
             i_load => LDAM, 
             i_shiftLeft => SHFTAM,
-            i_shiftRight => open,
-            i_decrement => open,
-            i_increment => open,
-            i_serial_in_left => open,
+            i_shiftRight => '0',
+            i_decrement => '0',
+            i_increment => '0',
+            i_serial_in_left => '0',
             i_serial_in_right => '0',
             i_clock => GClock,
             i_Value => MantissaA_9Bit,
@@ -211,12 +218,12 @@ ARCHITECTURE rtl of AdderDataPath is
         
             i_resetBar => GReset,
             i_load => LDBM, 
-            i_shiftLeft => open,
+            i_shiftLeft => '0',
             i_shiftRight => SHFTBM,
-            i_decrement => open,
-            i_increment => open,
+            i_decrement => '0',
+            i_increment => '0',
             i_serial_in_left => '0',
-            i_serial_in_right => open,
+            i_serial_in_right => '0',
             i_clock => GClock,
             i_Value => MantissaB_9Bit,
             o_Value => register_Bm_result
@@ -256,7 +263,7 @@ ARCHITECTURE rtl of AdderDataPath is
     complementer_Sm     : NineBitAdderSubtractor
         PORT MAP
         (
-            InputA => "00000000",
+            InputA => "000000000",
             InputB => mantissa_adder_result,
             Operation => SignAorSignBNegative,
             Result => complementer_Sm_result,
@@ -271,21 +278,21 @@ ARCHITECTURE rtl of AdderDataPath is
             i_load => LDSM, 
             i_shiftLeft => LSHFTM,
             i_shiftRight => RSHFTM,
-            i_decrement => open,
-            i_increment => open,
+            i_decrement => '0',
+            i_increment => '0',
             i_serial_in_left => '0',
             i_serial_in_right => '0',
             i_clock => GClock,
             i_Value => mantissa_adder_8Bit,
-            o_Value => register_Bm_result
+            o_Value => register_Sm_result
 
         );
     
     expoenntChoser      : TwoToOne8BitMux
         PORT MAP
         (
-            i_muxIn0 => ExponentB,
-            i_muxIn1 => ExponentA,
+            i_muxIn0 => ExponentB_8Bit,
+            i_muxIn1 => ExponentA_8Bit,
             o_mux => larger_exponent,
             sel	=> AEGTBE
         );
@@ -296,28 +303,28 @@ ARCHITECTURE rtl of AdderDataPath is
         
             i_resetBar => GReset,
             i_load => LDSE, 
-            i_shiftLeft => open,
-            i_shiftRight => open,
+            i_shiftLeft => '0',
+            i_shiftRight => '0',
             i_decrement => INCSE,
             i_increment => DECSE,
-            i_serial_in_left => open,
-            i_serial_in_right => open,
+            i_serial_in_left => '0',
+            i_serial_in_right => '0',
             i_clock => GClock,
             i_Value => larger_exponent,
             o_Value => register_Se_result
 
         );
     
-    SignOutChoser      : TwoToOne8BitMux
+    SignOutChoser      : mux_2to1_top
     PORT MAP
     ( 
         SEL => AEGTBE,
         A => SignA,
         B => SignB,
-        X => SignOut,
+        X => SignOut
     );
     
-    MantissaOut <= register_Bm_result;
+    MantissaOut <= register_Sm_result;
     ExponentOut <= register_Se_result(6 downto 0);
 
 
