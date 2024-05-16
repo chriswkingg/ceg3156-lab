@@ -8,7 +8,11 @@ entity mux_2to1_top is
            X   : out STD_LOGIC);
 end mux_2to1_top;
 
-architecture Behavioral of mux_2to1_top is
+architecture rtl of mux_2to1_top is
+SIGNAL int_t1, int_t2 : STD_LOGIC; 
 begin
-    X <= A when (SEL = '1') else B;
-end Behavioral;
+	int_t1 <= A and not SEL;
+	int_t2 <= B and SEL;
+	
+	X <= int_t1 or int_t2;
+end rtl;

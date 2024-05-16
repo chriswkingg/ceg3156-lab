@@ -24,12 +24,12 @@ ARCHITECTURE rtl OF dflipflop IS
 		i_enable : IN STD_LOGIC;
 		o_q, o_qBar : OUT STD_LOGIC);
 	END COMPONENT;
-	COMPONENT twoonemux
+	COMPONENT mux_2to1_top
 	PORT(
-		w0 : IN STD_LOGIC;
-		w1 : IN STD_LOGIC;
-		s : IN STD_LOGIC;
-		f : OUT STD_LOGIC);
+		A : IN STD_LOGIC;
+		B : IN STD_LOGIC;
+		SEL : IN STD_LOGIC;
+		X : OUT STD_LOGIC);
 	END COMPONENT;
 BEGIN
 	-- Component Instantiation
@@ -45,12 +45,12 @@ BEGIN
 		i_enable => int_clock_or_async,
 		o_q => int_final_q,
 		o_qBar => o_qBar);
-	enableMux: twoonemux
+	enableMux: mux_2to1_top
 	PORT MAP (
-		w0 => int_final_q,
-		w1 => i_d,
-		s => i_enable,
-		f => int_mux_d
+		A => int_final_q,
+		B => i_d,
+		SEL => i_enable,
+		X => int_mux_d
 	);
 
 	-- Concurrent Signal Assignment
