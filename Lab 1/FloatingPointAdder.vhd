@@ -10,31 +10,31 @@ ENTITY FloatingPointAdder is
 		i_exponentA, i_exponentB : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
 		o_sign, o_overflow : OUT STD_LOGIC;
 		o_mantissa : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-		o_exponent : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+		o_exponent : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
 		
 	);
 END FloatingPointAdder;
 
 ARCHITECTURE rtl of FloatingPointAdder is
-COMPONENT AdderDataPath IS
-PORT
-    (
-        SignA, SignB                    :   IN STD_LOGIC;
-        MantissaA, MantissaB            :   IN STD_LOGIC_VECTOR(7 downto 0);
-        ExponentA, ExponentB            :   IN STD_LOGIC_VECTOR(6 downto 0);
-        GClock, GReset                  :   IN STD_LOGIC;
-        SignOut                         :   OUT STD_LOGIC;
-        MantissaOut                     :   OUT STD_LOGIC_VECTOR(7 downto 0);
-        ExponentOut                     :   OUT STD_LOGIC_VECTOR(6 downto 0);
-        Overflow                        :   OUT STD_LOGIC;
-        SHFTM                           :   IN STD_LOGIC;
-        LDDC, DECDC                     :   IN STD_LOGIC;
-        LDAM, LDBM                      :   IN STD_LOGIC;
-        LDSM, LSHFTM, RSHFTM            :   IN STD_LOGIC;
-        LDSE, INCSE, DECSE              :   IN STD_LOGIC;
-        CLRS, LDAS                      :   IN STD_LOGIC
-    )
-END COMPONENT;
+	COMPONENT AdderDataPath IS
+	PORT
+		 (
+			  SignA, SignB                    :   IN STD_LOGIC;
+			  MantissaA, MantissaB            :   IN STD_LOGIC_VECTOR(7 downto 0);
+			  ExponentA, ExponentB            :   IN STD_LOGIC_VECTOR(6 downto 0);
+			  GClock, GReset                  :   IN STD_LOGIC;
+			  SignOut                         :   OUT STD_LOGIC;
+			  MantissaOut                     :   OUT STD_LOGIC_VECTOR(7 downto 0);
+			  ExponentOut                     :   OUT STD_LOGIC_VECTOR(6 downto 0);
+			  Overflow                        :   OUT STD_LOGIC;
+			  SHFTM                           :   IN STD_LOGIC;
+			  LDDC, DECDC                     :   IN STD_LOGIC;
+			  LDAM, LDBM                      :   IN STD_LOGIC;
+			  LDSM, LSHFTM, RSHFTM            :   IN STD_LOGIC;
+			  LDSE, INCSE, DECSE              :   IN STD_LOGIC;
+			  CLRS, LDAS                      :   IN STD_LOGIC
+		 );
+	END COMPONENT;
 COMPONENT AdderControlUnit IS
 PORT
 	(
@@ -46,12 +46,12 @@ PORT
 		o_loadSumE, o_loadSumM, o_loadSumS, o_rightShiftSum, o_incrementSumExponent, o_leftShiftSum, o_decrementSumExponent : OUT STD_LOGIC
 	);
 END COMPONENT;
-SIGNAL int_SHFTM, int_LDDC, int_DECDC, int_LDAM, int_LDBM, int_LDSM, int_LSHFTM, int_RSHFTM, int_LDSE, int_INCSE, int_DECSE, int_CLRS, int_LDAS : STD_LOGIC
+SIGNAL int_SHFTM, int_LDDC, int_DECDC, int_LDAM, int_LDBM, int_LDSM, int_LSHFTM, int_RSHFTM, int_LDSE, int_INCSE, int_DECSE, int_CLRS, int_LDAS : STD_LOGIC;
 BEGIN
 	dp : AdderDataPath
 	PORT MAP(
 		SignA => i_signA,
-		SignB => i_signB
+		SignB => i_signB,
 		MantissaA => i_mantissaA, 
 		MantissaB => i_mantissaB,            
       ExponentA => i_exponentA,
@@ -60,11 +60,11 @@ BEGIN
 		GReset => i_reset,
       SignOut => o_sign,
       MantissaOut => o_mantissa,
-      ExponentOut => o_exponent
+      ExponentOut => o_exponent,
       Overflow => o_overflow,
-      SHFTM => int_SHIFTM,
-      LDDC => int_LLDC, 
-		DECDC => int_DECDC
+      SHFTM => int_SHFTM,
+      LDDC => int_LDDC, 
+		DECDC => int_DECDC,
       LDAM => int_LDAM, 
 		LDBM => int_LDBM,
       LDSM => int_LDSM, 

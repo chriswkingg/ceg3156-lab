@@ -21,7 +21,7 @@ ENTITY AdderDataPath is
         LDSM, LSHFTM, RSHFTM            :   IN STD_LOGIC;
         LDSE, INCSE, DECSE              :   IN STD_LOGIC;
         CLRS, LDAS                      :   IN STD_LOGIC;
-		  DownCounterEmpty, MantissaCarry, MantissaSubMSB : OUT STD_LOGIC;
+		  DownCounterEmpty, MantissaCarry, MantissaSubMSB : OUT STD_LOGIC
     );
     END AdderDataPath;
 
