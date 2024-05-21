@@ -9,7 +9,9 @@ ENTITY AdderControlUnit is
 		o_loadA, o_loadB : OUT STD_LOGIC;
 		o_loadDownCounter, o_decrementDownCounter : OUT STD_LOGIC;
 		o_smallerMantissaLeftShift : OUT STD_LOGIC;
-		o_loadSumE, o_loadSumM, o_loadSumS, o_rightShiftSum, o_incrementSumExponent, o_leftShiftSum, o_decrementSumExponent : OUT STD_LOGIC
+		o_loadSumE, o_loadSumM, o_loadSumS, o_rightShiftSum, o_incrementSumExponent, o_leftShiftSum, o_decrementSumExponent : OUT STD_LOGIC;
+		-- Debug
+		o_s0, o_s1, o_s2, o_s3, o_s4, o_s5, o_s6: OUT STD_LOGIC
 	);
 END AdderControlUnit;
 
@@ -29,16 +31,16 @@ SIGNAL int_s0, int_s1, int_s2, int_s3, int_s4, int_s5, int_s6 : STD_LOGIC;
 SIGNAL inp_s2, inp_s3, inp_s4, inp_s5, inp_s6 : STD_LOGIC;
 BEGIN
 
-	inp_s2 <= int_s1 AND NOT i_DownCounterEmpty;
+	inp_s2 <= ((int_s1 OR int_s2)AND NOT i_DownCounterEmpty);
 	inp_s3 <= (int_s1 OR int_s2) AND i_downCounterEmpty;
 	inp_s4 <= int_s3 AND i_mantissaCarry;
 	inp_s5 <= (int_s3 OR int_s5) AND NOT i_mantissaSumMSB;
-	inp_s6 <= int_s4 OR (int_s5 AND i_mantissaSumMSB);
+	inp_s6 <= int_s4 OR (int_s5 AND i_mantissaSumMSB) OR (int_s3 AND i_mantissaSumMSB AND NOT i_mantissaCarry);
 
 
 	s0 : dflipflop
 	PORT MAP(
-		i_d => '0',
+		i_d => i_reset,
 		i_clock => i_clock,
 		i_enable => '1',
 		i_async_reset => '0',
@@ -118,5 +120,12 @@ BEGIN
 	o_incrementSumExponent <= int_s4;
 	o_leftShiftSum <= int_s5; 
 	o_decrementSumExponent <= int_s5; 
+	o_s0 <= int_s0;
+	o_s1 <= int_s1;
+	o_s2 <= int_s2;
+	o_s3 <= int_s3;
+	o_s4 <= int_s4;
+	o_s5 <= int_s5;
+	o_s6 <= int_s6;
 	
 END ARCHITECTURE;
