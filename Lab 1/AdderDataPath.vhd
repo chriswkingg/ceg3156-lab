@@ -21,13 +21,13 @@ ENTITY AdderDataPath is
         LDSM, LSHFTM, RSHFTM            :   IN STD_LOGIC;
         LDSE, INCSE, DECSE              :   IN STD_LOGIC;
         CLRS, LDAS                      :   IN STD_LOGIC;
-		  DownCounterEmpty, MantissaCarry, MantissaSubMSB : OUT STD_LOGIC
+        DCEMT, MantissaCarry, MantissaSubMSB : OUT STD_LOGIC
     );
     END AdderDataPath;
 
 ARCHITECTURE rtl of AdderDataPath is
 
-    SIGNAL SHFTAM, SHFTBM, AEGTBE, DCEMT    : STD_LOGIC;
+    SIGNAL SHFTAM, SHFTBM, AEGTBE, DCEMT_SIG    : STD_LOGIC;
     SIGNAL SignAorSignBNegative             : STD_LOGIC;
     SIGNAL exponentSubtractor_result        : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL exponentDifferenceNegator_result : STD_LOGIC_VECTOR(7 downto 0);
@@ -45,7 +45,7 @@ ARCHITECTURE rtl of AdderDataPath is
     SIGNAL larger_exponent                  : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL register_Se_result               : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL register_Sum_input               : STD_LOGIC_VECTOR(15 downto 0);
-	 SIGNAL mantissaAddCarry					  : STD_LOGIC;
+    SIGNAL mantissaAddCarry					  : STD_LOGIC;
 
     COMPONENT EightBitComparator IS
         PORT(
@@ -137,6 +137,10 @@ ARCHITECTURE rtl of AdderDataPath is
 
     SignAorSignBNegative <= SignA xor SignB;
 
+    DCEMT <= DCEMT_SIG;
+    MantissaCarry <= mantissaAddCarry;
+    MantissaSubMSB <= mantissa_adder_result(8);
+
 
     exponentComparator   :   EightBitComparator
         PORT MAP
@@ -193,7 +197,7 @@ ARCHITECTURE rtl of AdderDataPath is
             i_Bi => "00000000",
             o_GT => open,
             o_LT => open,
-            o_EQ => DCEMT
+            o_EQ => DCEMT_SIG
         );
 
     register_Am     : NineBitGPRegister
@@ -328,8 +332,4 @@ ARCHITECTURE rtl of AdderDataPath is
     
     MantissaOut <= register_Sm_result;
     ExponentOut <= register_Se_result(6 downto 0);
-	 -- Flags for control logic
-	 DownCounterEmpty <= not(Downcounter_result(7) or Downcounter_result(6) or Downcounter_result(5) or Downcounter_result(4) or Downcounter_result(3) or Downcounter_result(2) or Downcounter_result(1) or Downcounter_result(0));
-	 MantissaCarry <= mantissaAddCarry;
-	 MantissasubMSB <= mantissa_adder_result(8);
     END ARCHITECTURE;

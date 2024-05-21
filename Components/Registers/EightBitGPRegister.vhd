@@ -81,7 +81,6 @@ ARCHITECTURE structural OF EightBitGPRegister IS
     SIGNAL mux_in_5 : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL mux_in_6 : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL mux_in_7 : STD_LOGIC_VECTOR(7 downto 0);
-    SIGNAL mux_in_8 : STD_LOGIC_VECTOR(7 downto 0);
     
 
 
@@ -97,9 +96,8 @@ BEGIN
     mux_in_4 <= (0 => q_out(4), 1 => i_Value(4), 2 => q_out(3), 3 => q_out(5), 4 => incrementer_result(4), 5 => decrementer_result(4), others => '1');
     mux_in_5 <= (0 => q_out(5), 1 => i_Value(5), 2 => q_out(4), 3 => q_out(6), 4 => incrementer_result(5), 5 => decrementer_result(5), others => '1');
     mux_in_6 <= (0 => q_out(6), 1 => i_Value(6), 2 => q_out(5), 3 => q_out(7), 4 => incrementer_result(6), 5 => decrementer_result(6), others => '1');
-    mux_in_7 <= (0 => q_out(7), 1 => i_Value(7), 2 => q_out(6), 3 => q_out(8), 4 => incrementer_result(7), 5 => decrementer_result(7), others => '1');
+    mux_in_7 <= (0 => q_out(7), 1 => i_Value(7), 2 => q_out(6), 3 => i_serial_in_left, 4 => incrementer_result(7), 5 => decrementer_result(7), others => '1');
     -- wtf lol - CK
-	 mux_in_8 <= (0 => q_out(8), 1 => i_Value(8), 2 => q_out(7), 3 => i_serial_in_left, 4 => incrementer_result(8), 5 => decrementer_result(8), others => '1');
 
     OperationEncoder: EigthToThreeEncoder 
     PORT MAP(
@@ -107,21 +105,21 @@ BEGIN
         outputs => operation_selectors
     );
 
-    incrementer_adder: NineBitAdderSubtractor
+    incrementer_adder: EightBitAdderSubtractor
         PORT MAP
         (
             InputA => q_out,
-            InputB => "000000001",
+            InputB => "00000001",
             Operation => '0',
             Result => incrementer_result,
             CarryOUT => open
         );
     
-    decrementer_adder: NineBitAdderSubtractor
+    decrementer_adder: EightBitAdderSubtractor
         PORT MAP
         (
             InputA => q_out,
-            InputB => "000000001",
+            InputB => "00000001",
             Operation => '1',
             Result => decrementer_result,
             CarryOUT => open
@@ -287,24 +285,5 @@ BEGIN
         o_qBar => open
     );
 
-    mux8: EightToOneMux
-    PORT MAP
-    (
-        i_mux => mux_in_8,
-        o_mux => d_in(8),
-        sel0 => operation_selectors(0),
-        sel1 => operation_selectors(1),
-        sel2 => operation_selectors(2)
-    );
-
-    dff8: enARdFF_2
-    PORT MAP (
-        i_d => d_in(8),
-        i_clock => i_clock,
-        i_enable => enable_reg,
-		i_resetBar => i_resetBar,
-        o_q => q_out(8),
-        o_qBar => open
-    );
     o_Value <= q_out;
 END structural;

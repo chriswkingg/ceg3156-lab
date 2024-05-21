@@ -26,7 +26,16 @@ COMPONENT dflipflop IS
 	END COMPONENT;
 
 SIGNAL int_s0, int_s1, int_s2, int_s3, int_s4, int_s5, int_s6 : STD_LOGIC; 
+SIGNAL inp_s2, inp_s3, inp_s4, inp_s5, inp_s6 : STD_LOGIC;
 BEGIN
+
+	inp_s2 <= int_s1 AND NOT i_DownCounterEmpty;
+	inp_s3 <= (int_s1 OR int_s2) AND i_downCounterEmpty;
+	inp_s4 <= int_s3 AND i_mantissaCarry;
+	inp_s5 <= (int_s3 OR int_s5) AND NOT i_mantissaSumMSB;
+	inp_s6 <= int_s4 OR (int_s5 AND i_mantissaSumMSB);
+
+
 	s0 : dflipflop
 	PORT MAP(
 		i_d => '0',
@@ -49,7 +58,7 @@ BEGIN
 	);
 	s2 : dflipflop
 	PORT MAP(
-		i_d => int_s1 AND NOT i_DownCounterEmpty,
+		i_d => inp_s2,
 		i_clock => i_clock,
 		i_enable => '1',
 		i_async_reset => i_reset,
@@ -59,7 +68,7 @@ BEGIN
 	);
 	s3 : dflipflop
 	PORT MAP(
-		i_d => (int_s1 OR int_s2) AND i_downCounterEmpty,
+		i_d => inp_s3,
 		i_clock => i_clock,
 		i_enable => '1',
 		i_async_reset => i_reset,
@@ -69,7 +78,7 @@ BEGIN
 	);
 	s4 : dflipflop
 	PORT MAP(
-		i_d => int_s3 AND i_mantissaCarry,
+		i_d => inp_s4,
 		i_clock => i_clock,
 		i_enable => '1',
 		i_async_reset => i_reset,
@@ -79,7 +88,7 @@ BEGIN
 	);
 	s5 : dflipflop
 	PORT MAP(
-		i_d => (int_s3 OR int_s5) AND NOT i_mantissaSumMSB,
+		i_d => inp_s5,
 		i_clock => i_clock,
 		i_enable => '1',
 		i_async_reset => i_reset,
@@ -89,7 +98,7 @@ BEGIN
 	);
 	s6 : dflipflop
 	PORT MAP(
-		i_d => int_s4 OR (int_s5 AND i_mantissaSumMSB),
+		i_d => inp_s6,
 		i_clock => i_clock,
 		i_enable => '1',
 		i_async_reset => i_reset,
