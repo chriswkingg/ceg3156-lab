@@ -40,7 +40,9 @@ ghdl -a .\Testbenches\*.vhd
 ghdl -r EncoderTestBench --vcd=.\Testbenches\Results\EncoderTestBench.vcd
 ghdl -r NineBitAdderSubtractorTestBench --vcd=.\Testbenches\Results\NineBitAdderSubtractorTestBench.vcd
 ghdl -r NineBitGPRegisterTestBench --vcd=.\Testbenches\Results\NineBitGPRegisterTestBench.vcd
+ghdl -r dflipflopTestBench --vcd=.\Testbenches\Results\dflipflopTestBench.vcd
 ghdl -r FloatingPointAdderTestbench --vcd=.\Testbenches\Results\FloatingPointAdderTestbench.vcd
+
 echo:
 
 echo Done
