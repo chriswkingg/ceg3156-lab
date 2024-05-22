@@ -10,10 +10,7 @@ ENTITY FloatingPointAdder is
 		i_exponentA, i_exponentB : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
 		o_sign, o_overflow : OUT STD_LOGIC;
 		o_mantissa : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-		o_exponent : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-		-- Debug
-		o_s0, o_s1, o_s2, o_s3, o_s4, o_s5, o_s6 : OUT STD_LOGIC
-		
+		o_exponent : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
 	);
 END FloatingPointAdder;
 
@@ -49,8 +46,7 @@ PORT
 		o_loadA, o_loadB : OUT STD_LOGIC;
 		o_loadDownCounter, o_decrementDownCounter : OUT STD_LOGIC;
 		o_smallerMantissaLeftShift : OUT STD_LOGIC;
-		o_loadSumE, o_loadSumM, o_loadSumS, o_rightShiftSum, o_incrementSumExponent, o_leftShiftSum, o_decrementSumExponent : OUT STD_LOGIC;
-		o_s0, o_s1, o_s2, o_s3, o_s4, o_s5, o_s6 : OUT STD_LOGIC
+		o_loadSumE, o_loadSumM, o_loadSumS, o_rightShiftSum, o_incrementSumExponent, o_leftShiftSum, o_decrementSumExponent : OUT STD_LOGIC
 	);
 END COMPONENT;
 SIGNAL int_SHFTM, int_LDDC, int_DECDC, int_LDAM, int_LDBM, int_LDSM, int_LSHFTM, int_RSHFTM, int_LDSE, int_INCSE, int_DECSE, int_CLRS, int_LDAS, i_reset_BAR : STD_LOGIC;
@@ -94,7 +90,7 @@ BEGIN
 	PORT MAP
 	(
 		i_clock => i_clock,
-		i_reset => i_reset,
+		i_reset => i_reset_BAR,
 		i_downCounterEmpty => DCEMT,
 		i_mantissaCarry => MantissaCarry,
 		i_mantissaSumMSB => MantissaSubMSB,
@@ -109,14 +105,7 @@ BEGIN
 		o_rightShiftSum => int_RSHFTM,
 		o_incrementSumExponent => int_INCSE,
 		o_leftShiftSum => int_LSHFTM,
-		o_decrementSumExponent =>  int_DECSE,
-		o_s0 => o_s0,
-		o_s1 => o_s1,
-		o_s2 => o_s2,
-		o_s3 => o_s3,
-		o_s4 => o_s4,
-		o_s5 => o_s5,
-		o_s6 => o_s6
+		o_decrementSumExponent =>  int_DECSE
 	);
 	
 END ARCHITECTURE;

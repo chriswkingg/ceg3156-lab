@@ -68,8 +68,8 @@ BEGIN
     BEGIN
         -- Hold reset state for a few clock cycles
         i_reset <= '0';
-        i_reset <= '1';
         WAIT FOR 2 * clock_period;
+        i_reset <= '1';
         
 
         -- Test Case 1: Add two numbers
@@ -80,6 +80,11 @@ BEGIN
         i_exponentA <= "0000011"; -- Example exponent A
         i_exponentB <= "0000010"; -- Example exponent B
         WAIT FOR 10 * clock_period;
+        
+        
+        i_reset <= '0';
+        WAIT FOR 2 * clock_period;
+        i_reset <= '1';
 
         -- Test Case 2: Add two different numbers
         i_signA <= '1';
