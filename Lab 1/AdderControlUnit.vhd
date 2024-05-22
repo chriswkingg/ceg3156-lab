@@ -34,8 +34,8 @@ BEGIN
 	inp_s2 <= ((int_s1 OR int_s2)AND NOT i_DownCounterEmpty);
 	inp_s3 <= (int_s1 OR int_s2) AND i_downCounterEmpty;
 	inp_s4 <= int_s3 AND i_mantissaCarry;
-	inp_s5 <= (int_s3 OR int_s5) AND NOT i_mantissaSumMSB;
-	inp_s6 <= int_s4 OR (int_s5 AND i_mantissaSumMSB) OR (int_s3 AND i_mantissaSumMSB AND NOT i_mantissaCarry);
+	inp_s5 <= (int_s3 OR int_s5) AND NOT i_mantissaSumMSB AND NOT i_mantissaCarry;
+	inp_s6 <= int_s4 OR int_s6 OR (int_s5 AND i_mantissaSumMSB) OR (int_s3 AND i_mantissaSumMSB AND NOT i_mantissaCarry);
 
 
 	s0 : dflipflop
