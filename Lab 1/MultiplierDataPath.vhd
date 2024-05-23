@@ -99,8 +99,9 @@ ARCHITECTURE rtl of MultiplierDataPath is
             B   : in  STD_LOGIC;
             X   : out STD_LOGIC);
     END COMPONENT;
-SIGNAL int_exponentsum, int_finalexponent : STD_LOGIC_VECTOR(7 DOWNTO 0);
+SIGNAL int_exponentsum, int_finalexponent, int_finalexponentregister : STD_LOGIC_VECTOR(7 DOWNTO 0);
 SIGNAL int_exponentA8Bit, int_exponentB8Bit : STD_LOGIC_VECTOR(7 DOWNTO 0);
+SIGNAL int_mantissaARegisterOutput, int_mantissaBRegisterOutput : STD_LOGIC_VECTOR(8 DOWNTO 0);
 BEGIN
 	int_exponentA8Bit <= '0' & ExponentA;
 	int_exponentB8Bit <= '0' & ExponentB;
@@ -117,9 +118,9 @@ BEGIN
 	PORT MAP
 	  (
 			InputA => int_exponentsum,
-			InputB => '00111111',
+			InputB => "00111111",
 			Operation => '1',
-			Result => int_exponentsum,
+			Result => int_finalexponent,
 			CarryOUT => open
 	  );
 	productExponent : EightBitGPRegister
@@ -130,21 +131,66 @@ BEGIN
 			i_shiftLeft => '0', 
 			i_shiftRight => '0',
 			i_decrement => '0', 
-			i_increment => '0'
+			i_increment => '0',
 			i_serial_in_left => '0', 
 			i_serial_in_right => '0',
 			i_clock => Gclock,
 			i_Value => int_exponentsum,
-			o_Value => int_finalexponent
+			o_Value => int_finalexponentregister
 	  );
 	exponentComparator : EightBitComparator 
 	  PORT MAP
 	  (
-			i_Ai => int_finalexponent,
-			i_Bi => '01111111'
+			i_Ai => int_finalexponentregister,
+			i_Bi => "01111111",
 			o_GT => open, 
 			o_LT => o_eXPVLD, 
 			o_EQ => open
 	  );
+	  mantissaARegister : NineBitGPRegister
+	  PORT MAP
+	  (
+			
+			i_resetBar => not GReset,
+			i_load => i_LDAM, 
+			i_shiftLeft => '0', 
+			i_shiftRight => '0', 
+			i_decrement => '0', 
+			i_increment => '0',
+
+			i_serial_in_left => '0', 
+			i_serial_in_right => '0',
+			i_clock => GClock,
+			i_Value => '1' & MantissaA,
+			o_Value => int_mantissaARegisterOutput
+		);
+		mantissaBRegister : NineBitGPRegister
+	  PORT MAP
+	  (
+			
+			i_resetBar => not GReset,
+			i_load => i_LDAM, 
+			i_shiftLeft => '0', 
+			i_shiftRight => '0', 
+			i_decrement => '0', 
+			i_increment => '0',
+
+			i_serial_in_left => '0', 
+			i_serial_in_right => '0',
+			i_clock => GClock,
+			i_Value => '1' & MantissaB,
+			o_Value => int_mantissaBRegisterOutput
+		);
+		-- multiplier logic?!
+		-- 18 bit register for output
+		mantissaComparator : EightBitComparator 
+        PORT MAP(
+            i_Ai => "00000000", -- output of product register 
+				i_Bi => "00000001",
+            o_GT => o_INCPM, 
+				o_LT => OPEN, 
+				o_EQ => OPEN		
+        );
+		
     
 END ARCHITECTURE;
