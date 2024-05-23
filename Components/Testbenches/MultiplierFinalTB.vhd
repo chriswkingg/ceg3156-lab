@@ -1,21 +1,21 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-ENTITY MultiplierFinal_Testbench IS
-END ENTITY MultiplierFinal_Testbench;
+ENTITY MultiplierFinalTestBench IS
+END ENTITY MultiplierFinalTestBench;
 
-ARCHITECTURE testbench_arch OF MultiplierFinal_Testbench IS
+ARCHITECTURE testbench_arch OF MultiplierFinalTestBench IS
     -- Signals for inputs and outputs
-    SIGNAL IN1, IN2     : STD_LOGIC_VECTOR(3 downto 0);
+    SIGNAL IN1, IN2     : STD_LOGIC_VECTOR(8 downto 0);
     SIGNAL CLK, async_reset_bar : STD_LOGIC;
-    SIGNAL Product : STD_LOGIC_VECTOR(7 DOWNTO 0);
+    SIGNAL Product : STD_LOGIC_VECTOR(17 DOWNTO 0);
 
     -- Instantiate the MultiplierFinal entity
     COMPONENT MultiplierFinal
         PORT (
-            IN1, IN2 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+            IN1, IN2 : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
             CLK, async_reset_bar : IN STD_LOGIC;
-            Product : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+            Product : OUT STD_LOGIC_VECTOR(17 DOWNTO 0)
         );
     END COMPONENT;
 
@@ -33,8 +33,8 @@ BEGIN
     PROCESS
     BEGIN
         -- Initialize inputs
-        IN1 <= "1101";             -- Modify test vectors as needed
-        IN2 <= "0011";
+        IN1 <= "000001101";             -- Modify test vectors as needed
+        IN2 <= "000000011";
         async_reset_bar <= '0';
         CLK <= '0';
 

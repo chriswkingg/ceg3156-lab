@@ -75,10 +75,10 @@ BEGIN
         -- Test Case 1: Add two numbers
         i_signA <= '0';
         i_signB <= '0';
-        i_mantissaA <= "00011001"; -- Example mantissa A
-        i_mantissaB <= "00010101"; -- Example mantissa B
-        i_exponentA <= "0000011"; -- Example exponent A
-        i_exponentB <= "0000010"; -- Example exponent B
+        i_mantissaA <= "10100000"; -- Example mantissa A
+        i_mantissaB <= "01001000"; -- Example mantissa B
+        i_exponentA <= "1000001"; -- Example exponent A
+        i_exponentB <= "1000010"; -- Example exponent B
         WAIT FOR 10 * clock_period;
         
         

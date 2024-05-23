@@ -4,13 +4,13 @@ USE ieee.std_logic_1164.all;
 ENTITY MultiplierCP is
     PORT
     (
-        B0IS1, RESET, CLK, ILT3    : IN  STD_LOGIC;
+        B0IS1, RESET, CLK, ILT7    : IN  STD_LOGIC;
         LSHFTA, RSHFTB, LDA, LDB, INCI, CLRI, LDP, CLRP    : OUT STD_LOGIC
     );
     END MultiplierCP;
 
 ARCHITECTURE rtl of MultiplierCP is
-    SIGNAL S0, S1, S2,S3, RegS1_IN, RegS2_IN, RegS0_IN, RegS3_IN   : STD_LOGIC;
+    SIGNAL SReset, S0, S1, S2,S3, RegS1_IN, RegS2_IN, RegS0_IN, RegS3_IN   : STD_LOGIC;
     COMPONENT enARdFF_2 IS
         PORT(
             i_resetBar	: IN	STD_LOGIC;
@@ -30,19 +30,28 @@ ARCHITECTURE rtl of MultiplierCP is
         END COMPONENT;
     BEGIN
         LDP <= S1;
-        RegS0  :   enARdFF_2_resetON
+        RegReset  :   enARdFF_2_resetON
         PORT MAP(
             i_resetBar => RESET,
             i_d => '0',
+            i_enable => '1',	
+            i_clock => CLK,
+            o_q => SReset, 
+            o_qBar  => open
+            );
+        RegS0  :   enARdFF_2
+        PORT MAP(
+            i_resetBar => RESET,
+            i_d => SReset,
             i_enable => '1',	
             i_clock => CLK,
             o_q => S0, 
             o_qBar  => open
             );
 
-        RegS1_IN <= (S0 or S1 or S2) and B0IS1 and ILT3;
-        RegS2_IN <= (S0 or S1 or S2) and not B0IS1 and ILT3;
-        RegS3_IN <= not ILT3 or S3;
+        RegS1_IN <= (S0 or S1 or S2) and   and ILT7;
+        RegS2_IN <= (S0 or S1 or S2) and not B0IS1 and ILT7;
+        RegS3_IN <= not ILT7 or S3;
 
         RegS1  :   enARdFF_2
         PORT MAP(
@@ -75,12 +84,12 @@ ARCHITECTURE rtl of MultiplierCP is
 
         LSHFTA <= S1 or S2;
         RSHFTB <= S1 or S2;
-        LDA <= S0;
-        LDB <= S0;
+        LDA <= SReset;
+        LDB <= SReset;
         INCI <= S1 or S2;
-        CLRI <= S0;
+        CLRI <= SReset;
     
-        CLRP <= S0;
+        CLRP <= SReset;
 
         -- DS0 <= S0;
         -- DS1 <= S1;

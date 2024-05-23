@@ -25,6 +25,11 @@ echo:
 ghdl -a .\Multiplexers\*.vhd
 echo:
 
+echo Compiling Multipliers Circuits
+echo:
+ghdl -a .\Multipliers\*.vhd
+echo:
+
 echo Compiling Registers Circuits
 echo:
 ghdl -a .\Registers\*.vhd
@@ -41,7 +46,9 @@ ghdl -r EncoderTestBench --vcd=.\Testbenches\Results\EncoderTestBench.vcd
 ghdl -r NineBitAdderSubtractorTestBench --vcd=.\Testbenches\Results\NineBitAdderSubtractorTestBench.vcd
 ghdl -r NineBitGPRegisterTestBench --vcd=.\Testbenches\Results\NineBitGPRegisterTestBench.vcd
 ghdl -r dflipflopTestBench --vcd=.\Testbenches\Results\dflipflopTestBench.vcd
+ghdl -r MultiplierFinalTestBench --vcd=.\Testbenches\Results\MultiplierFinalTestBench.vcd
 ghdl -r FloatingPointAdderTestbench --vcd=.\Testbenches\Results\FloatingPointAdderTestbench.vcd
+
 
 echo:
 
