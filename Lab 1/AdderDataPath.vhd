@@ -21,13 +21,15 @@ ENTITY AdderDataPath is
         LDSM, LSHFTM, RSHFTM            :   IN STD_LOGIC;
         LDSE, INCSE, DECSE              :   IN STD_LOGIC;
         CLRS, LDAS                      :   IN STD_LOGIC;
-        DCEMT, MantissaCarry, MantissaSubMSB : OUT STD_LOGIC
+        DCEMT, MantissaCarry, MantissaSubMSB : OUT STD_LOGIC;
+		  -- Debug
+		  o_register_Bm_result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
     );
     END AdderDataPath;
 
 ARCHITECTURE rtl of AdderDataPath is
 
-    SIGNAL SHFTAM, SHFTBM, AEGTBE, DCEMT_SIG    : STD_LOGIC;
+    SIGNAL SHFTAM, SHFTBM, AEGTBE, AELTBE, DCEMT_SIG    : STD_LOGIC;
     SIGNAL SignAorSignBNegative             : STD_LOGIC;
     SIGNAL exponentSubtractor_result        : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL exponentDifferenceNegator_result : STD_LOGIC_VECTOR(7 downto 0);
@@ -125,8 +127,8 @@ ARCHITECTURE rtl of AdderDataPath is
 
     BEGIN
 
-    SHFTAM <= SHFTM and AEGTBE;
-    SHFTBM <= SHFTM and (not AEGTBE);
+    SHFTAM <= SHFTM and AELTBE;
+    SHFTBM <= SHFTM and AEGTBE;
 
     ExponentA_8Bit <= '0' & ExponentA;
     ExponentB_8Bit <= '0' & ExponentB;
@@ -148,7 +150,7 @@ ARCHITECTURE rtl of AdderDataPath is
             i_Ai => ExponentA_8Bit,
             i_Bi => ExponentB_8Bit,
             o_GT => AEGTBE,
-            o_LT => open,
+            o_LT => AELTBE,
             o_EQ => open
         );
 
@@ -165,9 +167,9 @@ ARCHITECTURE rtl of AdderDataPath is
     exponentDifferenceNegator  :   EightBitAdderSubtractor
         PORT MAP
         (
-            InputA => exponentSubtractor_result,
-            InputB => "00000000",
-            Operation => AEGTBE,
+            InputA => "00000000",
+            InputB => exponentSubtractor_result,
+            Operation => AELTBE,
             Result => exponentDifferenceNegator_result,
             CarryOUT => open
         );
@@ -332,4 +334,6 @@ ARCHITECTURE rtl of AdderDataPath is
     
     MantissaOut <= register_Sm_result;
     ExponentOut <= register_Se_result(6 downto 0);
-    END ARCHITECTURE;
+	 
+	 o_register_Bm_result <= MantissaB_9Bit;
+	 END ARCHITECTURE;
