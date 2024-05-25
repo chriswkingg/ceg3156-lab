@@ -23,7 +23,7 @@ ENTITY AdderDataPath is
         CLRS, LDAS                      :   IN STD_LOGIC;
         DCEMT, MantissaCarry, MantissaSubMSB : OUT STD_LOGIC;
 		  -- Debug
-		  o_register_Bm_result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
+		  o_register_Am_result, o_register_Bm_result, o_mantissaAddResult : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
     );
     END AdderDataPath;
 
@@ -208,8 +208,8 @@ ARCHITECTURE rtl of AdderDataPath is
         
             i_resetBar => GReset,
             i_load => LDAM, 
-            i_shiftLeft => SHFTAM,
-            i_shiftRight => '0',
+            i_shiftLeft => '0',
+            i_shiftRight => SHFTAM,
             i_decrement => '0',
             i_increment => '0',
             i_serial_in_left => '0',
@@ -261,8 +261,8 @@ ARCHITECTURE rtl of AdderDataPath is
     mantissa_adder  :   NineBitAdderSubtractor
         PORT MAP
         (
-            InputA => register_Am_negator_result,
-            InputB => register_Bm_negator_result,
+            InputA => register_Am_result,
+            InputB => register_Bm_result,
             Operation => '0',
             Result => mantissa_adder_result,
             CarryOUT => mantissaAddCarry
@@ -289,7 +289,7 @@ ARCHITECTURE rtl of AdderDataPath is
             i_decrement => '0',
             i_increment => '0',
             i_serial_in_left => '0',
-            i_serial_in_right => '0',
+            i_serial_in_right => '1',
             i_clock => GClock,
             i_Value => mantissa_adder_8Bit,
             o_Value => register_Sm_result
@@ -313,8 +313,8 @@ ARCHITECTURE rtl of AdderDataPath is
             i_load => LDSE, 
             i_shiftLeft => '0',
             i_shiftRight => '0',
-            i_decrement => INCSE,
-            i_increment => DECSE,
+            i_decrement => DECSE,
+            i_increment => INCSE,
             i_serial_in_left => '0',
             i_serial_in_right => '0',
             i_clock => GClock,
@@ -334,6 +334,7 @@ ARCHITECTURE rtl of AdderDataPath is
     
     MantissaOut <= register_Sm_result;
     ExponentOut <= register_Se_result(6 downto 0);
-	 
-	 o_register_Bm_result <= MantissaB_9Bit;
-	 END ARCHITECTURE;
+	 o_register_Am_result <= register_Am_result;
+	 o_register_Bm_result <= register_Bm_result;
+	 o_mantissaAddResult <= mantissa_adder_result;
+	 	 END ARCHITECTURE;
