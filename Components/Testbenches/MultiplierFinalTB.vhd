@@ -34,8 +34,8 @@ BEGIN
     BEGIN
         -- Initialize inputs
         IN1 <= "000001101";             -- Modify test vectors as needed
-        IN2 <= "000000011";
-        async_reset_bar <= '0';
+        IN2 <= "000000010";
+        async_reset_bar  <= '0';
         CLK <= '0';
 
         WAIT FOR 10 ns;            -- Initialize clock

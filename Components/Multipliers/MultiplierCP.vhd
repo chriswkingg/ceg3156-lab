@@ -49,7 +49,7 @@ ARCHITECTURE rtl of MultiplierCP is
             o_qBar  => open
             );
 
-        RegS1_IN <= (S0 or S1 or S2) and   and ILT7;
+        RegS1_IN <= (S0 or S1 or S2) and B0IS1  and ILT7;
         RegS2_IN <= (S0 or S1 or S2) and not B0IS1 and ILT7;
         RegS3_IN <= not ILT7 or S3;
 
