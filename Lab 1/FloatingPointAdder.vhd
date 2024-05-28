@@ -10,7 +10,9 @@ ENTITY FloatingPointAdder is
 		i_exponentA, i_exponentB : IN STD_LOGIC_VECTOR(6 DOWNTO 0);
 		o_sign, o_overflow : OUT STD_LOGIC;
 		o_mantissa : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-		o_exponent : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
+		o_exponent : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+		o_s0, o_s1, o_s2, o_s3, o_s4, o_s5, o_s6, o_mantissacarry : OUT STD_LOGIC;
+		o_register_Am_result, o_register_Bm_result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
 	);
 END FloatingPointAdder;
 
@@ -22,7 +24,7 @@ ARCHITECTURE rtl of FloatingPointAdder is
         SignA, SignB                    :   IN STD_LOGIC;
         MantissaA, MantissaB            :   IN STD_LOGIC_VECTOR(7 downto 0);
         ExponentA, ExponentB            :   IN STD_LOGIC_VECTOR(6 downto 0);
-        GClock, GReset                  :   IN STD_LOGIC;
+        GClock, GResetBAR                  :   IN STD_LOGIC;
         -- Adder Output Signals 
         SignOut                         :   OUT STD_LOGIC;
         MantissaOut                     :   OUT STD_LOGIC_VECTOR(7 downto 0);
@@ -35,7 +37,8 @@ ARCHITECTURE rtl of FloatingPointAdder is
         LDSM, LSHFTM, RSHFTM            :   IN STD_LOGIC;
         LDSE, INCSE, DECSE              :   IN STD_LOGIC;
         CLRS, LDAS                      :   IN STD_LOGIC;
-        DCEMT, MantissaCarry, MantissaSubMSB : OUT STD_LOGIC
+        DCEMT, MantissaCarry, MantissaSumMSB : OUT STD_LOGIC;
+		  o_register_Am_result, o_register_Bm_result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
     );
 	END COMPONENT;
 COMPONENT AdderControlUnit IS
@@ -46,12 +49,14 @@ PORT
 		o_loadA, o_loadB : OUT STD_LOGIC;
 		o_loadDownCounter, o_decrementDownCounter : OUT STD_LOGIC;
 		o_smallerMantissaLeftShift : OUT STD_LOGIC;
-		o_loadSumE, o_loadSumM, o_loadSumS, o_rightShiftSum, o_incrementSumExponent, o_leftShiftSum, o_decrementSumExponent : OUT STD_LOGIC
+		o_loadSumE, o_loadSumM, o_loadSumS, o_rightShiftSum, o_incrementSumExponent, o_leftShiftSum, o_decrementSumExponent : OUT STD_LOGIC;
+		o_s0, o_s1, o_s2, o_s3, o_s4, o_s5, o_s6 : OUT STD_LOGIC
 	);
 END COMPONENT;
 SIGNAL int_SHFTM, int_LDDC, int_DECDC, int_LDAM, int_LDBM, int_LDSM, int_LSHFTM, int_RSHFTM, int_LDSE, int_INCSE, int_DECSE, int_CLRS, int_LDAS, i_reset_BAR : STD_LOGIC;
-SIGNAL DCEMT, MantissaCarry, MantissaSubMSB : STD_LOGIC;
-
+SIGNAL int_DCEMT, int_MantissaCarry, int_MantissaSumMSB : STD_LOGIC;
+SIGNAL int_s0, int_s1, int_s2, int_s3, int_s4, int_s5, int_s6 : STD_LOGIC; 
+SIGNAL int_register_Am_result, int_register_Bm_result : STD_LOGIC_VECTOR(8 DOWNTO 0);
 BEGIN
 	i_reset_BAR <= not i_reset;
 	dp : AdderDataPath
@@ -63,7 +68,7 @@ BEGIN
       ExponentA => i_exponentA,
 		ExponentB => i_exponentB,
       GClock => i_clock,
-		GReset => i_reset,
+		GResetBAR => i_reset_BAR,
       SignOut => o_sign,
       MantissaOut => o_mantissa,
       ExponentOut => o_exponent,
@@ -71,8 +76,8 @@ BEGIN
       SHFTM => int_SHFTM,
       LDDC => int_LDDC, 
 		DECDC => int_DECDC,
-      LDAM => int_LDAM, 
-		LDBM => int_LDBM,
+      LDAM => '1', 
+		LDBM => '1',
       LDSM => int_LDSM, 
 		LSHFTM => int_LSHFTM, 
 		RSHFTM => int_RSHFTM,
@@ -81,19 +86,21 @@ BEGIN
 		DECSE => int_DECSE,
       CLRS => int_CLRS,
 		LDAS => int_LDAS,
-	DCEMT => DCEMT,
-	MantissaCarry => MantissaCarry,
-	MantissaSubMSB => MantissaSubMSB 
+	DCEMT => int_DCEMT,
+	MantissaCarry => int_MantissaCarry,
+	MantissaSumMSB => int_MantissaSumMSB, 
+	o_register_Am_result => int_register_Am_result,
+	o_register_Bm_result => int_register_Bm_result
 	);
 
 	cp : AdderControlUnit
 	PORT MAP
 	(
 		i_clock => i_clock,
-		i_reset => i_reset_BAR,
-		i_downCounterEmpty => DCEMT,
-		i_mantissaCarry => MantissaCarry,
-		i_mantissaSumMSB => MantissaSubMSB,
+		i_reset => i_reset,
+		i_downCounterEmpty => int_DCEMT,
+		i_mantissaCarry => int_MantissaCarry,
+		i_mantissaSumMSB => int_MantissaSumMSB,
 		o_loadA => int_LDAM,
 		o_loadB => int_LDBM,
 		o_loadDownCounter => int_LDDC,
@@ -105,7 +112,24 @@ BEGIN
 		o_rightShiftSum => int_RSHFTM,
 		o_incrementSumExponent => int_INCSE,
 		o_leftShiftSum => int_LSHFTM,
-		o_decrementSumExponent =>  int_DECSE
+		o_decrementSumExponent =>  int_DECSE,
+		o_s0 => int_s0,
+		o_s1 => int_s1,
+		o_s2 => int_s2,
+		o_s3 => int_s3,
+		o_s4 => int_s4,
+		o_s5 => int_s5,
+		o_s6 => int_s6
 	);
+	o_s0 <= int_s0;
+	o_s1 <= int_s1;
+	o_s2 <= int_s2;
+	o_s3 <= int_s3;
+	o_s4 <= int_s4;
+	o_s5 <= int_s5;
+	o_s6 <= int_s6;
+	o_mantissacarry <= int_MantissaCarry;
+	o_register_Am_result <= int_register_Am_result;
+	o_register_Bm_result <= int_register_Bm_result;
 	
 END ARCHITECTURE;

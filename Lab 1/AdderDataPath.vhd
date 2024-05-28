@@ -8,7 +8,7 @@ ENTITY AdderDataPath is
         SignA, SignB                    :   IN STD_LOGIC;
         MantissaA, MantissaB            :   IN STD_LOGIC_VECTOR(7 downto 0);
         ExponentA, ExponentB            :   IN STD_LOGIC_VECTOR(6 downto 0);
-        GClock, GReset                  :   IN STD_LOGIC;
+        GClock, GResetBAR                  :   IN STD_LOGIC;
         -- Adder Output Signals 
         SignOut                         :   OUT STD_LOGIC;
         MantissaOut                     :   OUT STD_LOGIC_VECTOR(7 downto 0);
@@ -21,7 +21,7 @@ ENTITY AdderDataPath is
         LDSM, LSHFTM, RSHFTM            :   IN STD_LOGIC;
         LDSE, INCSE, DECSE              :   IN STD_LOGIC;
         CLRS, LDAS                      :   IN STD_LOGIC;
-        DCEMT, MantissaCarry, MantissaSubMSB : OUT STD_LOGIC;
+        DCEMT, MantissaCarry, MantissaSumMSB : OUT STD_LOGIC;
 		  -- Debug
 		  o_register_Am_result, o_register_Bm_result, o_mantissaAddResult : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
     );
@@ -43,7 +43,7 @@ ARCHITECTURE rtl of AdderDataPath is
     SIGNAL mantissa_adder_result            : STD_LOGIC_VECTOR(8 downto 0);
     SIGNAL complementer_Sm_result           : STD_LOGIC_VECTOR(8 downto 0);
     SIGNAL mantissa_adder_8Bit              : STD_LOGIC_VECTOR(7 downto 0);
-    SIGNAL register_Sm_result               : STD_LOGIC_VECTOR(7 downto 0);
+    SIGNAL register_Sm_result               : STD_LOGIC_VECTOR(8 downto 0);
     SIGNAL larger_exponent                  : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL register_Se_result               : STD_LOGIC_VECTOR(7 downto 0);
     SIGNAL register_Sum_input               : STD_LOGIC_VECTOR(15 downto 0);
@@ -141,7 +141,7 @@ ARCHITECTURE rtl of AdderDataPath is
 
     DCEMT <= DCEMT_SIG;
     MantissaCarry <= mantissaAddCarry;
-    MantissaSubMSB <= mantissa_adder_result(8);
+    MantissaSumMSB <= register_Sm_result(8);
 
 
     exponentComparator   :   EightBitComparator
@@ -178,7 +178,7 @@ ARCHITECTURE rtl of AdderDataPath is
         PORT MAP
         (
 
-            i_resetBar => GReset,
+            i_resetBar => GResetBAR,
             i_load => LDDC, 
             i_shiftLeft => '0',
             i_shiftRight => '0',
@@ -206,7 +206,7 @@ ARCHITECTURE rtl of AdderDataPath is
         PORT MAP
         (
         
-            i_resetBar => GReset,
+            i_resetBar => GResetBAR,
             i_load => LDAM, 
             i_shiftLeft => '0',
             i_shiftRight => SHFTAM,
@@ -224,7 +224,7 @@ ARCHITECTURE rtl of AdderDataPath is
         PORT MAP
         (
         
-            i_resetBar => GReset,
+            i_resetBar => GResetBAR,
             i_load => LDBM, 
             i_shiftLeft => '0',
             i_shiftRight => SHFTBM,
@@ -278,11 +278,11 @@ ARCHITECTURE rtl of AdderDataPath is
             CarryOUT => Overflow
         );
     
-    register_Sm          : EightBitGPRegister
+    register_Sm          : NineBitGPRegister
         PORT MAP
         (
         
-            i_resetBar => GReset,
+            i_resetBar => GResetBAR,
             i_load => LDSM, 
             i_shiftLeft => LSHFTM,
             i_shiftRight => RSHFTM,
@@ -291,7 +291,7 @@ ARCHITECTURE rtl of AdderDataPath is
             i_serial_in_left => '0',
             i_serial_in_right => '1',
             i_clock => GClock,
-            i_Value => mantissa_adder_8Bit,
+            i_Value => complementer_Sm_result,
             o_Value => register_Sm_result
 
         );
@@ -309,7 +309,7 @@ ARCHITECTURE rtl of AdderDataPath is
         PORT MAP
         (
         
-            i_resetBar => GReset,
+            i_resetBar => GResetBAR,
             i_load => LDSE, 
             i_shiftLeft => '0',
             i_shiftRight => '0',
@@ -332,7 +332,7 @@ ARCHITECTURE rtl of AdderDataPath is
         X => SignOut
     );
     
-    MantissaOut <= register_Sm_result;
+    MantissaOut <= register_Sm_result(7 downto 0);
     ExponentOut <= register_Se_result(6 downto 0);
 	 o_register_Am_result <= register_Am_result;
 	 o_register_Bm_result <= register_Bm_result;

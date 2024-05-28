@@ -72,3 +72,6 @@ PLLJ_PLLSPE_INFO.txt
 #gtkwave Test benches
 *.vcd
 *.cf
+
+#VSCode junk
+*.code-workspace
