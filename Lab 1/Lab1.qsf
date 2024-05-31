@@ -1,4 +1,4 @@
-set_global_assignment -name TOP_LEVEL_ENTITY FloatingPointAdder
+set_global_assignment -name TOP_LEVEL_ENTITY AdderTop
 #============================================================
 # Build by Altera University Program
 #============================================================
@@ -49,6 +49,20 @@ set_location_assignment PIN_H17 -to o_exponent[5]
 set_location_assignment PIN_F15 -to o_exponent[6]
 set_location_assignment PIN_AE13 -to o_overflow
 set_location_assignment PIN_H15 -to o_sign
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_location_assignment PIN_R24 -to i_resetReg
+set_global_assignment -name SIMULATION_MODE FUNCTIONAL
+set_location_assignment PIN_W26 -to i_resetAdder
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST ON -section_id eda_simulation
+set_global_assignment -name VECTOR_WAVEFORM_FILE MultiplierControlSimulation.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE AdderSimulation.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE AdderDatapathSimulation.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE AdderControlSimulation.vwf
 set_global_assignment -name VHDL_FILE MultiplierDataPath.vhd
 set_global_assignment -name VHDL_FILE MultiplierControlUnit.vhd
 set_global_assignment -name VHDL_FILE FloatingPointMultiplier.vhd
@@ -96,18 +110,7 @@ set_global_assignment -name VHDL_FILE ../Components/Adders/EighteenBitAdderSubtr
 set_global_assignment -name VHDL_FILE ../Components/Adders/EightBitRippleAdder.vhd
 set_global_assignment -name VHDL_FILE ../Components/Adders/EightBitAdderSubtractor.vhd
 set_global_assignment -name VHDL_FILE ../Components/Adders/AdderSubtractor.vhd
-set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
-set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
-set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
-set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_location_assignment PIN_R24 -to i_resetReg
 set_global_assignment -name VECTOR_WAVEFORM_FILE AdderTopTest.vwf
-set_global_assignment -name SIMULATION_MODE FUNCTIONAL
-set_location_assignment PIN_W26 -to i_resetAdder
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/cking028/Downloads/ceg3156-lab-main/ceg3156-lab-main/Lab 1/AdderTopTest.vwf"
-set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
-set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
-set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST ON -section_id eda_simulation
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -121,3 +124,4 @@ set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to HEX1
 set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to KEY
 set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to SW
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/chris/Desktop/ceg3156-lab/Lab 1/AdderTopTest.vwf"

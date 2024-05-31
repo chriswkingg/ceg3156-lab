@@ -11,8 +11,7 @@ ENTITY FloatingPointAdder is
 		o_sign, o_overflow : OUT STD_LOGIC;
 		o_mantissa : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
 		o_exponent : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
-		o_s0, o_s1, o_s2, o_s3, o_s4, o_s5, o_s6, o_mantissacarry : OUT STD_LOGIC;
-		o_register_Am_result, o_register_Bm_result : OUT STD_LOGIC_VECTOR(8 DOWNTO 0)
+		o_s0, o_s1, o_s2, o_s3, o_s4, o_s5, o_s6 : OUT STD_LOGIC
 	);
 END FloatingPointAdder;
 
@@ -128,8 +127,4 @@ BEGIN
 	o_s4 <= int_s4;
 	o_s5 <= int_s5;
 	o_s6 <= int_s6;
-	o_mantissacarry <= int_MantissaCarry;
-	o_register_Am_result <= int_register_Am_result;
-	o_register_Bm_result <= int_register_Bm_result;
-	
 END ARCHITECTURE;
