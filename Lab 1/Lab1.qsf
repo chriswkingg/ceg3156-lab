@@ -1,88 +1,123 @@
-# -------------------------------------------------------------------------- #
-#
-# Copyright (C) 1991-2013 Altera Corporation
-# Your use of Altera Corporation's design tools, logic functions 
-# and other software and tools, and its AMPP partner logic 
-# functions, and any output files from any of the foregoing 
-# (including device programming or simulation files), and any 
-# associated documentation or information are expressly subject 
-# to the terms and conditions of the Altera Program License 
-# Subscription Agreement, Altera MegaCore Function License 
-# Agreement, or other applicable license agreement, including, 
-# without limitation, that your use is for the sole purpose of 
-# programming logic devices manufactured by Altera and sold by 
-# Altera or its authorized distributors.  Please refer to the 
-# applicable agreement for further details.
-#
-# -------------------------------------------------------------------------- #
-#
-# Quartus II 64-Bit
-# Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-# Date created = 19:15:30  May 03, 2024
-#
-# -------------------------------------------------------------------------- #
-#
-# Notes:
-#
-# 1) The default values for assignments are stored in the file:
-#		Lab1_assignment_defaults.qdf
-#    If this file doesn't exist, see file:
-#		assignment_defaults.qdf
-#
-# 2) Altera recommends that you do not modify this file. This
-#    file is updated automatically by the Quartus II software
-#    and any changes you make may be lost or overwritten.
-#
-# -------------------------------------------------------------------------- #
-
-
+set_global_assignment -name TOP_LEVEL_ENTITY FloatingPointAdder
+#============================================================
+# Build by Altera University Program
+#============================================================
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE115F29C7
-set_global_assignment -name TOP_LEVEL_ENTITY FloatingPointAdder
-set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
-set_global_assignment -name PROJECT_CREATION_TIME_DATE "19:15:30  MAY 03, 2024"
+set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
+set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
+
+
+
+
 set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
-set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
-set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
-set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
-set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
-set_global_assignment -name NOMINAL_CORE_SUPPLY_VOLTAGE 1.2V
-set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
-set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/TwoToOne8BitMux.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/NineBitRippleAdder.vhd
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EigthToThreeEncoder.vhd
-set_global_assignment -name VHDL_FILE ../Components/Comparator/onebitcomparator.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/HalfAdder.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/FullAdder.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/EightBitRippleAdder.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/NineBitAdderSubtractor.vhd
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_location_assignment PIN_AB28 -to i_mantissa[0]
+set_location_assignment PIN_AC28 -to i_mantissa[1]
+set_location_assignment PIN_AC27 -to i_mantissa[2]
+set_location_assignment PIN_AD27 -to i_mantissa[3]
+set_location_assignment PIN_AB27 -to i_mantissa[4]
+set_location_assignment PIN_AC26 -to i_mantissa[5]
+set_location_assignment PIN_AD26 -to i_mantissa[6]
+set_location_assignment PIN_AB26 -to i_mantissa[7]
+set_location_assignment PIN_AC25 -to i_exponent[0]
+set_location_assignment PIN_AB25 -to i_exponent[1]
+set_location_assignment PIN_AC24 -to i_exponent[2]
+set_location_assignment PIN_AB24 -to i_exponent[3]
+set_location_assignment PIN_AB23 -to i_exponent[4]
+set_location_assignment PIN_AA24 -to i_exponent[5]
+set_location_assignment PIN_AA23 -to i_exponent[6]
+set_location_assignment PIN_AA22 -to i_exponent[7]
+set_location_assignment PIN_Y2 -to i_clock
+set_location_assignment PIN_M23 -to i_loadA
+set_location_assignment PIN_M21 -to i_loadB
+set_location_assignment PIN_N21 -to i_reset
+set_location_assignment PIN_G19 -to o_mantissa[0]
+set_location_assignment PIN_F19 -to o_mantissa[1]
+set_location_assignment PIN_E19 -to o_mantissa[2]
+set_location_assignment PIN_F21 -to o_mantissa[3]
+set_location_assignment PIN_F18 -to o_mantissa[4]
+set_location_assignment PIN_E18 -to o_mantissa[5]
+set_location_assignment PIN_J19 -to o_mantissa[6]
+set_location_assignment PIN_H19 -to o_mantissa[7]
+set_location_assignment PIN_J17 -to o_exponent[0]
+set_location_assignment PIN_G17 -to o_exponent[1]
+set_location_assignment PIN_J15 -to o_exponent[2]
+set_location_assignment PIN_H16 -to o_exponent[3]
+set_location_assignment PIN_J16 -to o_exponent[4]
+set_location_assignment PIN_H17 -to o_exponent[5]
+set_location_assignment PIN_F15 -to o_exponent[6]
+set_location_assignment PIN_AE13 -to o_overflow
+set_location_assignment PIN_H15 -to o_sign
+set_global_assignment -name VHDL_FILE MultiplierDataPath.vhd
+set_global_assignment -name VHDL_FILE MultiplierControlUnit.vhd
+set_global_assignment -name VHDL_FILE FloatingPointMultiplier.vhd
+set_global_assignment -name VHDL_FILE FloatingPointAdder.vhd
+set_global_assignment -name VHDL_FILE AdderTop.vhd
+set_global_assignment -name VHDL_FILE AdderDataPath.vhd
+set_global_assignment -name VHDL_FILE AdderControlUnit.vhd
+set_global_assignment -name VHDL_FILE ../Components/Testbenches/NineBitGPRegisterTestBench.vhd
+set_global_assignment -name VHDL_FILE ../Components/Testbenches/NineBitAdderSubtractorTestBench.vhd
+set_global_assignment -name VHDL_FILE ../Components/Testbenches/MultiplierFinalTB.vhd
+set_global_assignment -name VHDL_FILE ../Components/Testbenches/MultiplierCPTB.vhd
+set_global_assignment -name VHDL_FILE ../Components/Testbenches/MultiplerDPTB.vhd
+set_global_assignment -name VHDL_FILE ../Components/Testbenches/FloatingPointMultiplierTestBench.vhd
+set_global_assignment -name VHDL_FILE ../Components/Testbenches/FloatingPointAdderTestBench.vhd
+set_global_assignment -name VHDL_FILE ../Components/Testbenches/EncoderTestBench.vhd
+set_global_assignment -name VHDL_FILE ../Components/Testbenches/dflipflopTestBench.vhd
+set_global_assignment -name VHDL_FILE ../Components/Registers/NineBitGPRegister.vhd
+set_global_assignment -name VHDL_FILE ../Components/Registers/EighteenBitGPRegister.vhd
+set_global_assignment -name VHDL_FILE ../Components/Registers/EightBitRightShiftRegister.vhd
+set_global_assignment -name VHDL_FILE ../Components/Registers/EightBitRegister.vhd
+set_global_assignment -name VHDL_FILE ../Components/Registers/EightBitLeftShiftRegister.vhd
+set_global_assignment -name VHDL_FILE ../Components/Registers/EightBitIncrementer.vhd
 set_global_assignment -name VHDL_FILE ../Components/Registers/EightBitGPRegister.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/EightBitAdderSubtractor.vhd
-set_global_assignment -name VHDL_FILE ../Components/Comparator/EightBitComparator.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multipliers/MultiplierFinal.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multipliers/MultiplierDP.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multipliers/MultiplierCP.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/TwoToOne8BitMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/FourToOne8BitMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EigthToThreeEncoder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EightToOneMux.vhd
 set_global_assignment -name VHDL_FILE ../Components/Multiplexers/2To1BitMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enARdFF_2_resetON.vhd
+set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enARdFF_2.vhd
 set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enabledSRLatch.vhd
 set_global_assignment -name VHDL_FILE ../Components/FlipFlops/dflipflop.vhd
-set_global_assignment -name VHDL_FILE AdderControlUnit.vhd
-set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enARdFF_2.vhd
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EightToOneMux.vhd
-set_global_assignment -name VHDL_FILE ../Components/Registers/NineBitGPRegister.vhd
-set_global_assignment -name VHDL_FILE AdderDataPath.vhd
-set_global_assignment -name VHDL_FILE FloatingPointAdder.vhd
-set_global_assignment -name VECTOR_WAVEFORM_FILE AdderSimulation.vwf
+set_global_assignment -name VHDL_FILE ../Components/Comparator/onebitcomparator.vhd
+set_global_assignment -name VHDL_FILE ../Components/Comparator/NineBitComparator.vhd
+set_global_assignment -name VHDL_FILE ../Components/Comparator/EightBitComparator.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/NineBitRippleAdder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/NineBitAdderSubtractor.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/HalfAdder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/FullAdder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/EighteenBitRippleAdder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/EighteenBitAdderSubtractor.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/EightBitRippleAdder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/EightBitAdderSubtractor.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/AdderSubtractor.vhd
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_location_assignment PIN_R24 -to i_resetReg
+set_global_assignment -name VECTOR_WAVEFORM_FILE AdderTopTest.vwf
 set_global_assignment -name SIMULATION_MODE FUNCTIONAL
+set_location_assignment PIN_W26 -to i_resetAdder
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/cking028/Downloads/ceg3156-lab-main/ceg3156-lab-main/Lab 1/AdderTopTest.vwf"
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST ON -section_id eda_simulation
-set_global_assignment -name VECTOR_WAVEFORM_FILE AdderControlSimulation.vwf
-set_global_assignment -name VECTOR_WAVEFORM_FILE ../Components/FlipFlops/TestDFF.vwf
-set_global_assignment -name VHDL_FILE MultiplierControlUnit.vhd
-set_global_assignment -name VECTOR_WAVEFORM_FILE MultiplierControlSimulation.vwf
-set_global_assignment -name VHDL_FILE MultiplierDataPath.vhd
-set_global_assignment -name VHDL_FILE ../Components/Comparator/NineBitComparator.vhd
-set_global_assignment -name VECTOR_WAVEFORM_FILE AdderDatapathSimulation.vwf
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_instance_assignment -name FAST_INPUT_REGISTER ON -to *
+set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to *
+set_instance_assignment -name TSU_REQUIREMENT "10 ns" -from * -to *
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to HEX3
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to HEX2
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to HEX0
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to HEX1
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to KEY
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to SW
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/chris/Desktop/ceg3156-lab/Lab 1/AdderSimulation.vwf"
