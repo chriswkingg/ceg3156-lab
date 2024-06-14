@@ -5,7 +5,7 @@ ENTITY ControlUnit is
     PORT
     (
         i_op : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
-        o_RegDest, o_ALUSrc, o_MemToReg, o_RegWrite, o_MemRead o_MemWrite, o_Branch, o_ALUOp0, o_ALUOp1, o_jump : OUT STD_LOGIC
+        o_RegDest, o_ALUSrc, o_MemToReg, o_RegWrite, o_MemRead, o_MemWrite, o_Branch, o_ALUOp0, o_ALUOp1, o_jump : OUT STD_LOGIC
     );
     END ControlUnit;
 
