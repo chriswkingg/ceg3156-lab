@@ -66,7 +66,9 @@ BEGIN
     FA7: FullAdder 
     PORT MAP (
         A => InputA(7), B => InputB(7), Cin => C(6),
-        s => Sum(7), Cout => CarryOUT
+        s => Sum(7), Cout => C(7)
     );
+
+    CarryOUT <= C(7) xor C(6);
 
 END rtl;

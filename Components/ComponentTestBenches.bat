@@ -35,19 +35,27 @@ echo:
 ghdl -a .\Registers\*.vhd
 echo:
 
-echo Compiling Lab1 Circuits
+@REM echo Compiling Lab1 Circuits
+@REM echo:
+@REM ghdl -a "..\Lab 1\*.vhd"
+
+echo Compiling Lab2 Circuits
 echo:
-ghdl -a "..\Lab 1\*.vhd"
+ghdl -a "..\Lab 2\*.vhd"
 
 echo Simulating Testbenches
 echo:
 ghdl -a .\Testbenches\*.vhd
-ghdl -r EncoderTestBench --vcd=.\Testbenches\Results\EncoderTestBench.vcd
-ghdl -r NineBitAdderSubtractorTestBench --vcd=.\Testbenches\Results\NineBitAdderSubtractorTestBench.vcd
-ghdl -r NineBitGPRegisterTestBench --vcd=.\Testbenches\Results\NineBitGPRegisterTestBench.vcd
-ghdl -r dflipflopTestBench --vcd=.\Testbenches\Results\dflipflopTestBench.vcd
-ghdl -r MultiplierFinalTestBench --vcd=.\Testbenches\Results\MultiplierFinalTestBench.vcd
-ghdl -r FloatingPointAdderTestbench --vcd=.\Testbenches\Results\FloatingPointAdderTestbench.vcd
+@REM Lab 1 Testbenches
+@REM ghdl -r EncoderTestBench --vcd=.\Testbenches\Results\EncoderTestBench.vcd
+@REM ghdl -r NineBitAdderSubtractorTestBench --vcd=.\Testbenches\Results\NineBitAdderSubtractorTestBench.vcd
+@REM ghdl -r NineBitGPRegisterTestBench --vcd=.\Testbenches\Results\NineBitGPRegisterTestBench.vcd
+@REM ghdl -r dflipflopTestBench --vcd=.\Testbenches\Results\dflipflopTestBench.vcd
+@REM ghdl -r MultiplierFinalTestBench --vcd=.\Testbenches\Results\MultiplierFinalTestBench.vcd
+@REM ghdl -r FloatingPointAdderTestbench --vcd=.\Testbenches\Results\FloatingPointAdderTestbench.vcd
+
+@REM Lab 2 Testbenches
+ghdl -r ALUTestBench --vcd=.\Testbenches\Results\ALUTestBench.vcd
 
 
 echo:
