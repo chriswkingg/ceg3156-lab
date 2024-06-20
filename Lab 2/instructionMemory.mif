@@ -1,0 +1,16 @@
+DEPTH = 256;
+WIDTH = 32;
+ADDRESS_RADIX = HEX;
+DATA_RADIX = HEX;
+CONTENT
+BEGIN
+-- Use no operations (nop) for default instructions
+[00..FF]: 00000000;
+-- Place MIPS instruction here
+00: 8C020000; 
+04: 8C030001;
+08: 00430820;
+0C: AC010003;
+10: 1022FFFF;
+14: 1021FFFA;
+END;
