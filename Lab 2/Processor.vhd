@@ -44,7 +44,42 @@ ARCHITECTURE rtl OF Processor IS
       inclock, outclock: IN STD_LOGIC := '0';
       we: IN STD_LOGIC;
       q: OUT STD_LOGIC_VECTOR(LPM_WIDTH-1 DOWNTO 0));
-END COMPONENT;
+   END COMPONENT;
+SIGNAL int_dataAddress, int_readData, int_writeData, int_instructionAddress : STD_LOGIC_VECTOR(7 DOWNTO 0);
+SIGNAL int_instructionMemoryOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
+SIGNAL i_memWrite : STD_LOGIC;
 BEGIN
-	
+	dataMemory : lpm_ram_dq
+	GENERIC MAP (
+		lpm_address_control => "REGISTERED",
+		lpm_file => "dataMemory.mif",
+		lpm_indata => "REGISTERED",
+		lpm_outdata => "UNREGISTERED",
+		lpm_type => "LPM_RAM_DQ",
+		lpm_width => 8,
+		lpm_widthad => 8
+	)
+	PORT MAP (
+		address => int_dataAddress,
+		inclock => i_clock,
+		data => int_writeData,
+		we => i_memWrite,
+		q => int_readData
+	);
+
+   instructionMemory : lpm_rom
+	GENERIC MAP (
+		lpm_address_control => "REGISTERED",
+		lpm_file => "instructionMemory.mif",
+		lpm_indata => "REGISTERED",
+		lpm_outdata => "UNREGISTERED",
+		lpm_type => "LPM_RAM_DQ",
+		lpm_width => 32,
+		lpm_widthad => 8
+	)
+	PORT MAP (
+		address => int_instructionAddress,
+		inclock => i_clock,
+		q => int_instructionMemoryOut
+	);
 END rtl;
