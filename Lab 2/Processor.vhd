@@ -96,7 +96,7 @@ ARCHITECTURE rtl OF Processor IS
    SIGNAL int_dataAddress, int_readDataMemory, int_writeData, int_instructionAddress : STD_LOGIC_VECTOR(7 DOWNTO 0);
    -- ALU Signals
    SIGNAL int_aluOperandA, int_aluOperandB, int_aluResult : STD_LOGIC_VECTOR(7 DOWNTO 0);
-   SIGNAL int_aluOperation : STD_LOGIC(2 DOWNTO 0);
+   SIGNAL int_aluOperation : STD_LOGIC_VECTOR(2 DOWNTO 0);
 
    SIGNAL int_instructionMemoryOut : STD_LOGIC_VECTOR(31 DOWNTO 0);
    
@@ -129,7 +129,6 @@ BEGIN
 	GENERIC MAP (
 		lpm_address_control => "REGISTERED",
 		lpm_file => "instructionMemory.mif",
-		lpm_indata => "REGISTERED",
 		lpm_outdata => "UNREGISTERED",
 		lpm_type => "LPM_RAM_DQ",
 		lpm_width => 32,
@@ -141,7 +140,7 @@ BEGIN
 		q => int_instructionMemoryOut
 	);
    
-   alu : ALU
+   arithmeticLogicUnit : ALU
    PORT MAP
       (
          i_OPERAND_1 => int_aluOperandA, 
@@ -159,7 +158,7 @@ BEGIN
         o_OPERATION => int_aluOperation
     );
 
-   controlUnit : ControlUnit
+   control : ControlUnit
    PORT MAP
     (
         i_op => int_instructionMemoryOut(31 DOWNTO 26),
@@ -172,20 +171,20 @@ BEGIN
         o_Branch => open, 
         o_ALUOp0 => int_control_ALUOP(0), 
         o_ALUOp1 => int_control_ALUOP(1), 
-        o_jump 
+        o_jump => open
     );
-   registerFile : RegisterFile
-   PORT 
+   registers : RegisterFile
+   PORT MAP
     (
         i_readSelect1 => int_instructionMemoryOut(23 DOWNTO 21),
         i_readSelect2 => int_instructionMemoryOut(19 DOWNTO 16),
-        i_writeSelect => open,
-		  i_writeData => open,
+        i_writeSelect => "000",
+		  i_writeData => "00000000",
 		  i_clock => i_clock, 
         i_reset => i_reset,
         i_regWrite => int_regWrite,
         o_readData1 => int_readData1,
-        o_readData2 => int_readData2,
+        o_readData2 => int_readData2
     );
-    int_aluOperandA => int_readData1;
+    int_aluOperandA <= int_readData1;
 END rtl;
