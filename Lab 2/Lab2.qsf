@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE115F29C7
-set_global_assignment -name TOP_LEVEL_ENTITY RAM
+set_global_assignment -name TOP_LEVEL_ENTITY Processor
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:02:57  JUNE 14, 2024"
 set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
@@ -51,6 +51,13 @@ set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name SIMULATION_MODE FUNCTIONAL
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/chris/Desktop/ceg3156-lab/Lab 2/ROMSimulation.vwf"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name VHDL_FILE ../Components/Comparator/onebitcomparator.vhd
+set_global_assignment -name VHDL_FILE ../Components/Comparator/EightBitComparator.vhd
 set_global_assignment -name MIF_FILE instructionMemory.mif
 set_global_assignment -name VHDL_FILE ALUControlUnit.vhd
 set_global_assignment -name VHDL_FILE ALU.vhd
@@ -70,10 +77,7 @@ set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EightBitEightTo
 set_global_assignment -name VHDL_FILE RegisterFile.vhd
 set_global_assignment -name VHDL_FILE Processor.vhd
 set_global_assignment -name VHDL_FILE RAM.vhd
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name VECTOR_WAVEFORM_FILE RAMSimulation.vwf
-set_global_assignment -name SIMULATION_MODE FUNCTIONAL
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/chris/Desktop/ceg3156-lab/Lab 2/RAMSimulation.vwf"
+set_global_assignment -name VHDL_FILE ROM.vhd
+set_global_assignment -name VECTOR_WAVEFORM_FILE ROMSimulation.vwf
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
