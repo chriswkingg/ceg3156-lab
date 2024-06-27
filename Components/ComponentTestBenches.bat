@@ -35,6 +35,11 @@ echo:
 ghdl -a .\Registers\*.vhd
 echo:
 
+echo Compiling SignExtend Modules
+echo:
+ghdl -a .\SignExtend\*.vhd
+echo:
+
 @REM echo Compiling Lab1 Circuits
 @REM echo:
 @REM ghdl -a "..\Lab 1\*.vhd"
@@ -56,6 +61,8 @@ ghdl -a .\Testbenches\*.vhd
 
 @REM Lab 2 Testbenches
 ghdl -r ALUTestBench --vcd=.\Testbenches\Results\ALUTestBench.vcd
+ghdl -r SignExtend16To32BitModuleTestBench --vcd=.\Testbenches\Results\SignExtend16To32BitModule.vcd
+ghdl -r CPUControlPathTestBench --vcd=.\Testbenches\Results\CPUControlPathTestBench.vcd
 
 
 echo:

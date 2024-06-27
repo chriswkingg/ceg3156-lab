@@ -45,6 +45,66 @@ ARCHITECTURE rtl OF Processor IS
       we: IN STD_LOGIC;
       q: OUT STD_LOGIC_VECTOR(LPM_WIDTH-1 DOWNTO 0));
 END COMPONENT;
+
+   COMPONENT EightBitGPRegister IS
+      PORT 
+      (
+        -- Register Operations
+        i_resetBar : IN STD_LOGIC;
+        i_load, i_shiftLeft, i_shiftRight : IN STD_LOGIC;
+        i_decrement, i_increment : IN STD_LOGIC;
+
+        -- Register Signals
+        i_serial_in_left, i_serial_in_right : IN STD_LOGIC;
+        i_clock : IN STD_LOGIC;
+        i_Value : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+        o_Value : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+      );
+      END COMPONENT;
+
+   COMPONENT EightBitAdderSubtractor is 
+    PORT
+    (
+        InputA, InputB  : IN STD_LOGIC_VECTOR(7 downto 0);
+        Operation   :   IN STD_LOGIC;
+        Result    :   OUT STD_LOGIC_VECTOR(7 downto 0);
+        CarryOUT    :   OUT STD_LOGIC
+    );
+    END COMPONENT;
+
+   COMPONENT ControlUnit is
+    PORT
+    (
+        i_op : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
+        o_RegDest, o_ALUSrc, o_MemToReg, o_RegWrite, o_MemRead, o_MemWrite, o_Branch, o_ALUOp0, o_ALUOp1, o_jump : OUT STD_LOGIC
+    );
+    END COMPONENT;
+   
+   COMPONENT SignExtend16To32BitModule IS 
+      PORT 
+      (
+         i_OPERAND       : IN STD_LOGIC_VECTOR(15 downto 0);
+         o_OUTPUT        : OUT STD_LOGIC_VECTOR(31 downto 0)
+      );
+   END COMPONENT;
+
+   COMPONENT TwoToOne8BitMux IS
+   PORT (
+      i_muxIn0, i_muxIn1	: IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+      o_mux				: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+      sel					: IN STD_LOGIC
+   );
+   END COMPONENT;
+   
+   COMPONENT ALUControlUnit IS 
+   PORT 
+   (
+      i_FUNC_CODE : IN STD_LOGIC_VECTOR(5 downto 0);
+      i_ALU_OP    : IN STD_LOGIC_VECTOR(1 downto 0);
+      o_OPERATION : OUT STD_LOGIC_VECTOR(2 downto 0)
+   );
+   END COMPONENT;
+
 BEGIN
 	
 END rtl;
