@@ -1,0 +1,3 @@
+- 32 Bit registers
+- 32 Bit adder (for PC+4 and branch address)
+- 32 bit 2-1 mux
