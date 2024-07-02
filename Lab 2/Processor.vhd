@@ -80,8 +80,15 @@ ARCHITECTURE rtl OF Processor IS
     );
     END COMPONENT;
 
+	 -- Reset Signal
+	 SIGNAL i_resetBar : STD_LOGIC;
+	 
     -- Memory signals
     SIGNAL int_dataAddress, int_readDataMemory, int_writeData, int_instructionAddress : STD_LOGIC_VECTOR(7 DOWNTO 0);
+	 
+	 -- Program Counter Signals
+	 SIGNAL pc_increment, instruction_address : STD_LOGIC_VECTOR(7 downto 0);
+	 SIGNAL pc_increment_long, instruction_address_extended : STD_LOGIC_VECTOR(31 downto 0);
     -- ALU Signals
     SIGNAL int_aluOperandA, int_aluOperandB, int_aluResult : STD_LOGIC_VECTOR(7 DOWNTO 0);
     SIGNAL int_aluOperation : STD_LOGIC_VECTOR(2 DOWNTO 0);
@@ -93,11 +100,10 @@ ARCHITECTURE rtl OF Processor IS
 
     -- Control Signals
     SIGNAL int_control_ALUOP : STD_LOGIC_VECTOR(1 DOWNTO 0);
-    SIGNAL int_regWrite, int_memWrite : STD_LOGIC;
     SIGNAL int_RegDest, int_ALUSrc, int_MemToReg, int_RegWrite, int_MemWrite, int_Branch : STD_LOGIC;
 
     -- Sign Extend Signals
-    SIGNAL int_offset_Truncated : STD_LOGIC(7 DOWNTO 0);
+    SIGNAL int_offset_Truncated : STD_LOGIC_VECTOR(7 DOWNTO 0);
     SIGNAL int_offset : STD_LOGIC_VECTOR(15 DOWNTO 0);
     SIGNAL int_offset_SE : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
@@ -127,27 +133,11 @@ ARCHITECTURE rtl OF Processor IS
     );
     END COMPONENT;
 
-    COMPONENT ControlUnit IS
-    PORT
-    (
-        i_op : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
-        o_RegDest, o_ALUSrc, o_MemToReg, o_RegWrite, o_MemRead, o_MemWrite, o_Branch, o_ALUOp0, o_ALUOp1, o_jump : OUT STD_LOGIC
-    );
-    END COMPONENT;
-
     COMPONENT SignExtend16To32BitModule IS 
     PORT 
     (
         i_OPERAND : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
         o_OUTPUT : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
-    );
-    END COMPONENT;
-
-    COMPONENT TwoToOne8BitMux IS
-    PORT (
-        i_muxIn0, i_muxIn1 : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
-        o_mux : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-        sel : IN STD_LOGIC
     );
     END COMPONENT;
 
@@ -169,20 +159,14 @@ ARCHITECTURE rtl OF Processor IS
     );
     END COMPONENT;
 
-    COMPONENT ALUControlUnit IS 
-    PORT 
-    (
-        i_FUNC_CODE : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
-        i_ALU_OP : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
-        o_OPERATION : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
-    );
-    END COMPONENT;
-
 BEGIN
+
+	i_resetBar <= not i_reset;
+
     ProgramCounter : EightBitGPRegister
     PORT MAP
     (
-        i_resetBar => i_reset,
+        i_resetBar => i_resetBar,
         i_load => '1', 
         i_shiftLeft => '0',
         i_shiftRight => '0',
@@ -194,14 +178,16 @@ BEGIN
         i_Value => pc_increment,
         o_Value => instruction_address
     );
-
+	 
+	 instruction_address_extended <= "000000000000000000000000" & instruction_address;
+	pc_increment<= 	pc_increment_long(7 downto 0);
     ProgramCounter_Adder : ThirtyTwoBitAdderSubtractor
     PORT MAP
     (
-        InputA => instruction_address,
+        InputA => instruction_address_extended,
         InputB => "00000000000000000000000000000001",
         Operation => '0',
-        Result => pc_increment,
+        Result => pc_increment_long,
         CarryOUT => open
     );
 
@@ -222,6 +208,7 @@ BEGIN
         i_clock => i_clock,
         o_data => int_instructionMemoryOut
     );
+	 o_instructionOut <= int_instructionMemoryOut;
 
     b_operand_Mux : TwoToOne8BitMux
     PORT MAP 
@@ -259,7 +246,7 @@ BEGIN
         o_ALUSrc => int_ALUSrc, 
         o_MemToReg => int_MemToReg, 
         o_RegWrite => int_regWrite, 
-        o_MemRead => int_memWrite, 
+        o_MemRead => open, 
         o_MemWrite => int_MemWrite, 
         o_Branch => int_Branch, 
         o_ALUOp0 => int_control_ALUOP(0), 
