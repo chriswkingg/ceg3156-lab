@@ -44,14 +44,19 @@ echo:
 @REM echo:
 @REM ghdl -a "..\Lab 1\*.vhd"
 
-echo Compiling Lab2 Circuits
+@REM echo Compiling Lab2 Circuits
+@REM echo:
+@REM ghdl -a "..\Lab 2\*.vhd"
+
+echo Compiling Lab3 Circuits
 echo:
-ghdl -a "..\Lab 2\*.vhd"
+ghdl -a "..\Lab 3\*.vhd"
+
 
 echo Simulating Testbenches
 echo:
 ghdl -a .\Testbenches\*.vhd
-@REM Lab 1 Testbenches
+@REM @REM Lab 1 Testbenches
 @REM ghdl -r EncoderTestBench --vcd=.\Testbenches\Results\EncoderTestBench.vcd
 @REM ghdl -r NineBitAdderSubtractorTestBench --vcd=.\Testbenches\Results\NineBitAdderSubtractorTestBench.vcd
 @REM ghdl -r NineBitGPRegisterTestBench --vcd=.\Testbenches\Results\NineBitGPRegisterTestBench.vcd
@@ -59,11 +64,13 @@ ghdl -a .\Testbenches\*.vhd
 @REM ghdl -r MultiplierFinalTestBench --vcd=.\Testbenches\Results\MultiplierFinalTestBench.vcd
 @REM ghdl -r FloatingPointAdderTestbench --vcd=.\Testbenches\Results\FloatingPointAdderTestbench.vcd
 
-@REM Lab 2 Testbenches
-ghdl -r ALUTestBench --vcd=.\Testbenches\Results\ALUTestBench.vcd
-ghdl -r SignExtend16To32BitModuleTestBench --vcd=.\Testbenches\Results\SignExtend16To32BitModule.vcd
-ghdl -r CPUControlPathTestBench --vcd=.\Testbenches\Results\CPUControlPathTestBench.vcd
+@REM @REM Lab 2 Testbenches
+@REM ghdl -r ALUTestBench --vcd=.\Testbenches\Results\ALUTestBench.vcd
+@REM ghdl -r SignExtend16To32BitModuleTestBench --vcd=.\Testbenches\Results\SignExtend16To32BitModule.vcd
+@REM ghdl -r CPUControlPathTestBench --vcd=.\Testbenches\Results\CPUControlPathTestBench.vcd
 
+@REM Lab 3 Testbenches
+ghdl -r HazardDetectionUnitTestBench --vcd=.\Testbenches\Results\HazardDetectionUnitTestBench.vcd
 
 echo:
 
