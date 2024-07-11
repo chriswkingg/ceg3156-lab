@@ -158,7 +158,13 @@ ARCHITECTURE rtl OF Processor IS
         CarryOUT    : OUT STD_LOGIC
     );
     END COMPONENT;
-
+    COMPONENT FourToOne8BitMux IS
+    PORT (
+        i_muxIn0, i_muxIn1, i_muxIn2, i_muxIn3: IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+        o_mux: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+        sel0, sel1: IN STD_LOGIC
+    );
+    END COMPONENT;
 BEGIN
 
 	i_resetBar <= not i_reset;
