@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE115F29C7
-set_global_assignment -name TOP_LEVEL_ENTITY Processor
+set_global_assignment -name TOP_LEVEL_ENTITY MEMWB
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:02:57  JUNE 14, 2024"
 set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
@@ -54,57 +54,6 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name SIMULATION_MODE FUNCTIONAL
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST ON -section_id eda_simulation
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
-set_global_assignment -name VHDL_FILE Processor.vhd
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/TwoToOne32BitMux.vhd
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/FourToOne8BitMux.vhd
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/2To1BitMux.vhd
-set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enARdFF_2_resetON.vhd
-set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enabledSRLatch.vhd
-set_global_assignment -name VHDL_FILE ../Components/FlipFlops/dflipflop.vhd
-set_global_assignment -name VHDL_FILE MEMWB.vhd
-set_global_assignment -name VHDL_FILE IFID.vhd
-set_global_assignment -name VHDL_FILE IDEX.vhd
-set_global_assignment -name VHDL_FILE HazardDetectionUnit.vhd
-set_global_assignment -name VHDL_FILE ForwardingUnit.vhd
-set_global_assignment -name VHDL_FILE EXMEM.vhd
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/TwoToOne8BitMux.vhd
-set_global_assignment -name VHDL_FILE ../Components/SignExtend/SixteenToThirtyTwoBitSignExtendModule.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/ThirtyTwoBitRippleAdder.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/NineBitRippleAdder.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/NineBitAdderSubtractor.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/EighteenBitRippleAdder.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/EighteenBitAdderSubtractor.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/AdderSubtractor.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/ThirtyTwoBitAdderSubtractor.vhd
-set_global_assignment -name VHDL_FILE ../Components/Comparator/onebitcomparator.vhd
-set_global_assignment -name VHDL_FILE ../Components/Comparator/EightBitComparator.vhd
-set_global_assignment -name MIF_FILE instructionMemory.mif
-set_global_assignment -name VHDL_FILE ALUControlUnit.vhd
-set_global_assignment -name VHDL_FILE ALU.vhd
-set_global_assignment -name MIF_FILE dataMemory.mif
-set_global_assignment -name VHDL_FILE ../Components/Adders/HalfAdder.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/FullAdder.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/EightBitRippleAdder.vhd
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EigthToThreeEncoder.vhd
-set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enARdFF_2.vhd
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EightToOneMux.vhd
-set_global_assignment -name VHDL_FILE ../Components/Adders/EightBitAdderSubtractor.vhd
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EightToOne8BitMux.vhd
-set_global_assignment -name VHDL_FILE ../Components/Registers/EightBitGPRegister.vhd
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/ThreeToEightDecoder.vhd
-set_global_assignment -name VHDL_FILE ControlUnit.vhdl
-set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EightBitEightToOneMux.vhd
-set_global_assignment -name VHDL_FILE RegisterFile.vhd
-set_global_assignment -name VHDL_FILE RAM.vhd
-set_global_assignment -name VECTOR_WAVEFORM_FILE RAMSimulation.vwf
-set_global_assignment -name VHDL_FILE ROM.vhd
-set_global_assignment -name VECTOR_WAVEFORM_FILE ROMSimulation.vwf
-set_global_assignment -name VECTOR_WAVEFORM_FILE ProcessorSimulation.vwf
-set_global_assignment -name VECTOR_WAVEFORM_FILE ../Components/Multiplexers/BufferSim.vwf
-set_global_assignment -name VECTOR_WAVEFORM_FILE HazardDetectionUnitSimulation.vwf
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_location_assignment PIN_J1 -to i_clock
 set_location_assignment PIN_AB15 -to i_reset
 set_location_assignment PIN_AD21 -to i_valueSelect[2]
@@ -154,5 +103,59 @@ set_location_assignment PIN_D20 -to o_muxOut[1]
 set_location_assignment PIN_AC25 -to o_muxOut[0]
 set_location_assignment PIN_M24 -to o_regwrite
 set_location_assignment PIN_E14 -to o_zero
+set_global_assignment -name VHDL_FILE Processor.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/TwoToOne32BitMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/FourToOne8BitMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/2To1BitMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enARdFF_2_resetON.vhd
+set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enabledSRLatch.vhd
+set_global_assignment -name VHDL_FILE ../Components/FlipFlops/dflipflop.vhd
+set_global_assignment -name VHDL_FILE MEMWB.vhd
+set_global_assignment -name VHDL_FILE IFID.vhd
+set_global_assignment -name VHDL_FILE IDEX.vhd
+set_global_assignment -name VHDL_FILE HazardDetectionUnit.vhd
+set_global_assignment -name VHDL_FILE ForwardingUnit.vhd
+set_global_assignment -name VHDL_FILE EXMEM.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/TwoToOne8BitMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/SignExtend/SixteenToThirtyTwoBitSignExtendModule.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/ThirtyTwoBitRippleAdder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/NineBitRippleAdder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/NineBitAdderSubtractor.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/EighteenBitRippleAdder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/EighteenBitAdderSubtractor.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/AdderSubtractor.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/ThirtyTwoBitAdderSubtractor.vhd
+set_global_assignment -name VHDL_FILE ../Components/Comparator/onebitcomparator.vhd
+set_global_assignment -name VHDL_FILE ../Components/Comparator/EightBitComparator.vhd
+set_global_assignment -name MIF_FILE instructionMemory.mif
+set_global_assignment -name VHDL_FILE ALUControlUnit.vhd
+set_global_assignment -name VHDL_FILE ALU.vhd
+set_global_assignment -name MIF_FILE dataMemory.mif
+set_global_assignment -name VHDL_FILE ../Components/Adders/HalfAdder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/FullAdder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/EightBitRippleAdder.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EigthToThreeEncoder.vhd
+set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enARdFF_2.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EightToOneMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/Adders/EightBitAdderSubtractor.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EightToOne8BitMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/Registers/EightBitGPRegister.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/ThreeToEightDecoder.vhd
+set_global_assignment -name VHDL_FILE ControlUnit.vhdl
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EightBitEightToOneMux.vhd
+set_global_assignment -name VHDL_FILE RegisterFile.vhd
+set_global_assignment -name VHDL_FILE RAM.vhd
+set_global_assignment -name VECTOR_WAVEFORM_FILE RAMSimulation.vwf
+set_global_assignment -name VHDL_FILE ROM.vhd
+set_global_assignment -name VECTOR_WAVEFORM_FILE ROMSimulation.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE ProcessorSimulation.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE ../Components/Multiplexers/BufferSim.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE HazardDetectionUnitSimulation.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE IDEXSimulation.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE EXMEMSimulation.vwf
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/cking028/Downloads/ceg3156-lab-main/ceg3156-lab-main/Lab 3/ProcessorSimulation.vwf"
+set_global_assignment -name VECTOR_WAVEFORM_FILE MEMWBSimulation.vwf
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/chris/Desktop/ceg3156-lab/Lab 3/MEMWBSimulation.vwf"
