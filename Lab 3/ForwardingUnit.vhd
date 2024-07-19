@@ -4,9 +4,9 @@ USE IEEE.std_logic_1164.ALL;
 ENTITY ForwardingUnit IS 
     PORT 
     (
-        i_MEM_WB_Rd, i_EX_MEM_Rd, i_ID_EX_Rs, i_ID_EX_Rt : STD_LOGIC_VECTOR(2 DOWNTO 0);
-        i_MEM_WB_RegWrite, i_EX_MEM_RegWrite : STD_LOGIC;
-        o_ForwardA, o_ForwardB : STD_LOGIC_VECTOR(1 DOWNTO 0);
+        i_MEM_WB_Rd, i_EX_MEM_Rd, i_ID_EX_Rs, i_ID_EX_Rt  : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+        i_MEM_WB_RegWrite, i_EX_MEM_RegWrite  : IN STD_LOGIC;
+        o_ForwardA, o_ForwardB : OUT STD_LOGIC_VECTOR(1 DOWNTO 0)
     );
 END ForwardingUnit;
 
@@ -69,4 +69,4 @@ BEGIN
 
     o_ForwardA <= int_ForwardA;
     o_ForwardB <= int_ForwardB;
-END RTL;
+END ARCHITECTURE;

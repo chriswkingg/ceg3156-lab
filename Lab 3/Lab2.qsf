@@ -52,9 +52,21 @@ set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name SIMULATION_MODE FUNCTIONAL
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST ON -section_id eda_simulation
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name VHDL_FILE Processor.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/TwoToOne32BitMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/FourToOne8BitMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/Multiplexers/2To1BitMux.vhd
+set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enARdFF_2_resetON.vhd
+set_global_assignment -name VHDL_FILE ../Components/FlipFlops/enabledSRLatch.vhd
+set_global_assignment -name VHDL_FILE ../Components/FlipFlops/dflipflop.vhd
+set_global_assignment -name VHDL_FILE MEMWB.vhd
+set_global_assignment -name VHDL_FILE IFID.vhd
+set_global_assignment -name VHDL_FILE IDEX.vhd
+set_global_assignment -name VHDL_FILE HazardDetectionUnit.vhd
+set_global_assignment -name VHDL_FILE ForwardingUnit.vhd
+set_global_assignment -name VHDL_FILE EXMEM.vhd
 set_global_assignment -name VHDL_FILE ../Components/Multiplexers/TwoToOne8BitMux.vhd
 set_global_assignment -name VHDL_FILE ../Components/SignExtend/SixteenToThirtyTwoBitSignExtendModule.vhd
 set_global_assignment -name VHDL_FILE ../Components/Adders/ThirtyTwoBitRippleAdder.vhd
@@ -83,12 +95,64 @@ set_global_assignment -name VHDL_FILE ../Components/Multiplexers/ThreeToEightDec
 set_global_assignment -name VHDL_FILE ControlUnit.vhdl
 set_global_assignment -name VHDL_FILE ../Components/Multiplexers/EightBitEightToOneMux.vhd
 set_global_assignment -name VHDL_FILE RegisterFile.vhd
-set_global_assignment -name VHDL_FILE Processor.vhd
 set_global_assignment -name VHDL_FILE RAM.vhd
 set_global_assignment -name VECTOR_WAVEFORM_FILE RAMSimulation.vwf
 set_global_assignment -name VHDL_FILE ROM.vhd
 set_global_assignment -name VECTOR_WAVEFORM_FILE ROMSimulation.vwf
 set_global_assignment -name VECTOR_WAVEFORM_FILE ProcessorSimulation.vwf
-set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST ON -section_id eda_simulation
+set_global_assignment -name VECTOR_WAVEFORM_FILE ../Components/Multiplexers/BufferSim.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE HazardDetectionUnitSimulation.vwf
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_location_assignment PIN_J1 -to i_clock
+set_location_assignment PIN_AB15 -to i_reset
+set_location_assignment PIN_AD21 -to i_valueSelect[2]
+set_location_assignment PIN_Y16 -to i_valueSelect[1]
+set_location_assignment PIN_W4 -to i_valueSelect[0]
+set_location_assignment PIN_E8 -to o_branch
+set_location_assignment PIN_N4 -to o_instructionOut[31]
+set_location_assignment PIN_M5 -to o_instructionOut[30]
+set_location_assignment PIN_F3 -to o_instructionOut[29]
+set_location_assignment PIN_J4 -to o_instructionOut[28]
+set_location_assignment PIN_H5 -to o_instructionOut[27]
+set_location_assignment PIN_J3 -to o_instructionOut[26]
+set_location_assignment PIN_M4 -to o_instructionOut[25]
+set_location_assignment PIN_L5 -to o_instructionOut[24]
+set_location_assignment PIN_G1 -to o_instructionOut[23]
+set_location_assignment PIN_K4 -to o_instructionOut[22]
+set_location_assignment PIN_L7 -to o_instructionOut[21]
+set_location_assignment PIN_N3 -to o_instructionOut[20]
+set_location_assignment PIN_L4 -to o_instructionOut[19]
+set_location_assignment PIN_F2 -to o_instructionOut[18]
+set_location_assignment PIN_K3 -to o_instructionOut[17]
+set_location_assignment PIN_J6 -to o_instructionOut[16]
+set_location_assignment PIN_J7 -to o_instructionOut[15]
+set_location_assignment PIN_K8 -to o_instructionOut[14]
+set_location_assignment PIN_M7 -to o_instructionOut[13]
+set_location_assignment PIN_D2 -to o_instructionOut[12]
+set_location_assignment PIN_M3 -to o_instructionOut[11]
+set_location_assignment PIN_E1 -to o_instructionOut[10]
+set_location_assignment PIN_L6 -to o_instructionOut[9]
+set_location_assignment PIN_G6 -to o_instructionOut[8]
+set_location_assignment PIN_K1 -to o_instructionOut[7]
+set_location_assignment PIN_F1 -to o_instructionOut[6]
+set_location_assignment PIN_M8 -to o_instructionOut[5]
+set_location_assignment PIN_L3 -to o_instructionOut[4]
+set_location_assignment PIN_J5 -to o_instructionOut[3]
+set_location_assignment PIN_L8 -to o_instructionOut[2]
+set_location_assignment PIN_K2 -to o_instructionOut[1]
+set_location_assignment PIN_K7 -to o_instructionOut[0]
+set_location_assignment PIN_F11 -to o_memwrite
+set_location_assignment PIN_AB3 -to o_muxOut[7]
+set_location_assignment PIN_AD25 -to o_muxOut[6]
+set_location_assignment PIN_A25 -to o_muxOut[5]
+set_location_assignment PIN_AB5 -to o_muxOut[4]
+set_location_assignment PIN_AB12 -to o_muxOut[3]
+set_location_assignment PIN_U2 -to o_muxOut[2]
+set_location_assignment PIN_D20 -to o_muxOut[1]
+set_location_assignment PIN_AC25 -to o_muxOut[0]
+set_location_assignment PIN_M24 -to o_regwrite
+set_location_assignment PIN_E14 -to o_zero
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/cking028/Downloads/ceg3156-lab-main/ceg3156-lab-main/Lab 2/ProcessorSimulation.vwf"
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/cking028/Downloads/ceg3156-lab-main/ceg3156-lab-main/Lab 3/ProcessorSimulation.vwf"

@@ -1,7 +1,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-ENTITY EXMEM IS
+ENTITY MEMWB IS
     PORT 
     (
         i_clock, i_reset : IN STD_LOGIC;
@@ -10,9 +10,9 @@ ENTITY EXMEM IS
         o_memReadData, o_aluResult : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
         o_regDest : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
     );
-END EXMEM;
+END MEMWB;
 
-ARCHITECTURE rtl OF EXMEM IS
+ARCHITECTURE rtl OF MEMWB IS
     COMPONENT dflipflop IS
         PORT(
             i_d : IN STD_LOGIC;
